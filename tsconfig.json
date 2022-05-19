@@ -4,20 +4,17 @@
     "paths": {
       "@/*": ["*"]
     },
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
     "jsx": "preserve",
-    "noImplicitAny": false
   },
   "exclude": ["node_modules", "cypress"],
   "include": ["**/*.ts", "**/*.tsx"]

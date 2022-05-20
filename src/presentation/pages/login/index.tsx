@@ -1,8 +1,10 @@
-import LoginHeader from '@/presentation/components/LoginHeader'
-import Footer from '@/presentation/components/Footer'
-import FormStatus from '@/presentation/components/FormStatus'
-import SubmitButton from '@/presentation/components/SubmitButton'
-import Input from '@/presentation/components/Input'
+import {
+  Footer,
+  FormStatus,
+  Input,
+  LoginHeader,
+  SubmitButton
+} from '@/presentation/components'
 
 import * as S from './styles'
 

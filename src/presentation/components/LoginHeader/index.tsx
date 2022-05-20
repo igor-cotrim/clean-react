@@ -1,4 +1,5 @@
 import { memo } from 'react'
+
 import Logo from '../Logo'
 
 import * as S from './styles'

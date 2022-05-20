@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
+    "target": "ES6",
+    "lib": ["DOM", "ES6", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include", "esnext"],
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "rootDirs": ["src"],
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"]
     },
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "isolatedModules": false,
-    "jsx": "preserve",
+
   },
   "exclude": ["node_modules", "cypress"],
   "include": ["**/*.ts", "**/*.tsx"]

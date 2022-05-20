@@ -1,6 +1,5 @@
-import path from 'path'
-import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-// const path = require('path')
+const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
   mode: 'development',
@@ -43,9 +42,14 @@ module.exports = {
     ]
   },
   devServer: {
-    contentBase: './public',
-    writeToDisk: true,
-    historyApiFallback: true
+    devMiddleware: {
+      writeToDisk: true
+    },
+    static: {
+      directory: './public'
+    },
+    historyApiFallback: true,
+    port: 3000
   },
   externals: {
     react: 'React',

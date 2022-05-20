@@ -1,4 +1,5 @@
-import Logo from '@/presentation/components/Logo'
+import LoginHeader from '@/presentation/components/LoginHeader'
+import Footer from '@/presentation/components/Footer'
 import Spinner from '@/presentation/components/Spinner'
 import SubmitButton from '@/presentation/components/SubmitButton'
 
@@ -7,10 +8,7 @@ import * as S from './styles'
 const Login = () => {
   return (
     <S.Wrapper>
-      <S.LoginHeader>
-        <Logo />
-        <S.Title>Enquetes para programadores</S.Title>
-      </S.LoginHeader>
+      <LoginHeader />
 
       <S.LoginForm>
         <S.Subtitle>Login</S.Subtitle>
@@ -39,7 +37,7 @@ const Login = () => {
         </S.ErrorWrapper>
       </S.LoginForm>
 
-      <S.LoginFooter />
+      <Footer />
     </S.Wrapper>
   )
 }

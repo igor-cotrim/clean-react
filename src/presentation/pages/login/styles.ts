@@ -7,27 +7,6 @@ export const Wrapper = styled.div`
   justify-content: space-between;
 `
 
-export const LoginHeader = styled.header`
-  ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-top: 40px solid ${theme.colors.primaryDark};
-    background: ${theme.colors.primary};
-
-    > img {
-      margin-top: 40px;
-    }
-  `}
-`
-
-export const Title = styled.h1`
-  ${({ theme }) => css`
-    color: ${theme.colors.white};
-    margin: 16px 0 40px;
-  `}
-`
-
 export const LoginForm = styled.form`
   ${({ theme }) => css`
     display: flex;
@@ -112,12 +91,5 @@ export const Error = styled.span`
   ${({ theme }) => css`
     margin-top: 30px;
     color: ${theme.colors.primaryLight};
-  `}
-`
-
-export const LoginFooter = styled.footer`
-  ${({ theme }) => css`
-    background: ${theme.colors.primary};
-    height: 48px;
   `}
 `

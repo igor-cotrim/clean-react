@@ -7,13 +7,11 @@ type FormStatusProps = {
   errorMessage: string
 }
 
-const FormStatus = ({ isLoading, errorMessage }: FormStatusProps) => {
-  return (
-    <S.ErrorWrapper data-testid="error-wrapper">
-      {isLoading && <Spinner />}
-      {errorMessage && <S.Error>{errorMessage}</S.Error>}
-    </S.ErrorWrapper>
-  )
-}
+const FormStatus = ({ isLoading, errorMessage }: FormStatusProps) => (
+  <S.ErrorWrapper data-testid="error-wrapper">
+    {isLoading && <Spinner />}
+    {errorMessage && <S.Error>{errorMessage}</S.Error>}
+  </S.ErrorWrapper>
+)
 
 export default FormStatus

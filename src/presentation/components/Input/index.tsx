@@ -2,12 +2,16 @@ import { InputHTMLAttributes } from 'react'
 
 import * as S from './styles'
 
-type InputProps = InputHTMLAttributes<HTMLInputElement>
+type InputProps = {
+  state: any
+} & InputHTMLAttributes<HTMLInputElement>
 
-const Input = ({ ...props }: InputProps) => (
+const Input = ({ state, ...props }: InputProps) => (
   <S.InputWrapper>
     <S.Input {...props} />
-    <S.InputStatus>🔴</S.InputStatus>
+    <S.InputStatus data-testid={`${props.name}-status`} title={state}>
+      🔴
+    </S.InputStatus>
   </S.InputWrapper>
 )
 

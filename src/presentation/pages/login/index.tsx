@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import {
   Footer,
   FormStatus,
@@ -9,6 +11,9 @@ import {
 import * as S from './styles'
 
 const Login = () => {
+  const [isLoading] = useState(false)
+  const [errorMessage] = useState('')
+
   return (
     <S.Wrapper>
       <LoginHeader />
@@ -18,7 +23,7 @@ const Login = () => {
         <Input type="password" name="password" placeholder="Digite sua senha" />
         <SubmitButton text="Entrar" />
         <S.LinkToSignup>Criar conta</S.LinkToSignup>
-        <FormStatus />
+        <FormStatus isLoading={isLoading} errorMessage={errorMessage} />
       </S.LoginForm>
       <Footer />
     </S.Wrapper>

@@ -1,12 +1,13 @@
+import { ButtonHTMLAttributes } from 'react'
 import * as S from './styles'
 
-type SubmitButtonProps = {
-  text: string
-}
+type ButtonTypes = ButtonHTMLAttributes<HTMLButtonElement>
 
-const SubmitButton = ({ text }: SubmitButtonProps) => (
-  <S.SubmitButton data-testid="submit" type="submit">
-    {text}
+type SubmitButtonProps = ButtonTypes
+
+const SubmitButton = ({ children, ...props }: SubmitButtonProps) => (
+  <S.SubmitButton data-testid="submit" {...props}>
+    {children}
   </S.SubmitButton>
 )
 

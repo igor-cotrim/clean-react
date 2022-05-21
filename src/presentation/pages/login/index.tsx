@@ -21,7 +21,9 @@ const Login = () => {
         <S.Subtitle>Login</S.Subtitle>
         <Input type="email" name="email" placeholder="Digite seu e-mail" />
         <Input type="password" name="password" placeholder="Digite sua senha" />
-        <SubmitButton text="Entrar" />
+        <SubmitButton disabled type="submit" data-testid="submit">
+          Entrar
+        </SubmitButton>
         <S.LinkToSignup>Criar conta</S.LinkToSignup>
         <FormStatus isLoading={isLoading} errorMessage={errorMessage} />
       </S.LoginForm>

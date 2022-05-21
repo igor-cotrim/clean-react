@@ -10,6 +10,16 @@ export const SubmitButton = styled.button`
     line-height: 60px;
     cursor: pointer;
 
+    &:disabled {
+      background: ${theme.colors.grayLight};
+      cursor: not-allowed;
+      color: ${theme.colors.gray};
+
+      &:hover {
+        filter: none;
+      }
+    }
+
     &:hover {
       filter: brightness(0.9);
     }

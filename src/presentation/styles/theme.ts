@@ -28,6 +28,8 @@ export default {
   colors: {
     mainBg: '#f2f2f2',
     white: '#fff',
+    gray: '#666',
+    grayLight: '#ccc',
     black: '#000',
     primary: '#880e4f',
     primaryDark: '#560027',

@@ -18,8 +18,11 @@ const Input = ({ state, setState, ...props }: InputProps) => {
   return (
     <S.InputWrapper>
       <S.Input data-testid={props.name} onChange={handleChange} {...props} />
-      <S.InputStatus data-testid={`${props.name}-status`} title={state}>
-        🔴
+      <S.InputStatus
+        data-testid={`${props.name}-status`}
+        title={state ? state : 'Tudo certo!'}
+      >
+        {state ? '🔴' : '🟢'}
       </S.InputStatus>
     </S.InputWrapper>
   )

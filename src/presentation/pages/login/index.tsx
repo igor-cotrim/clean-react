@@ -27,11 +27,11 @@ const Login = ({ validation }: LoginProps) => {
 
   useEffect(() => {
     if (state.email) {
-      validation?.validate({ email: state.email })
+      validation?.validate('email', state.email)
     }
 
     if (state.password) {
-      validation?.validate({ password: state.password })
+      validation?.validate('password', state.password)
     }
   }, [state.email, state.password, validation])
 

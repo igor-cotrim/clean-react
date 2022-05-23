@@ -35,10 +35,16 @@ const Login = ({ validation }: LoginProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.email, state.password, validation])
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault()
+
+    setState({ ...state, isLoading: true })
+  }
+
   return (
     <S.Wrapper>
       <LoginHeader />
-      <S.LoginForm>
+      <S.LoginForm onSubmit={handleSubmit}>
         <S.Subtitle>Login</S.Subtitle>
         <Input
           state={state.emailError}

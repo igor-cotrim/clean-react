@@ -1,20 +1,41 @@
-import { render, RenderResult } from '@/presentation/utils/test-utils'
+import { Validation } from '@/presentation/protocols/validation'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  RenderResult
+} from '@/presentation/utils/test-utils'
 
 import Login from '.'
 
 type SutTypes = {
   sut: RenderResult
+  validationSpy: ValidationSpy
+}
+
+class ValidationSpy implements Validation {
+  errorMessage: string
+  input: object
+
+  validate(input: object): string {
+    this.input = input
+    return this.errorMessage
+  }
 }
 
 const makeSut = (): SutTypes => {
-  const sut = render(<Login />)
+  const validationSpy = new ValidationSpy()
+  const sut = render(<Login validation={validationSpy} />)
 
   return {
-    sut
+    sut,
+    validationSpy
   }
 }
 
 describe('#Login', () => {
+  afterEach(cleanup)
+
   it('should start with initial state', () => {
     const { sut } = makeSut()
 
@@ -32,5 +53,16 @@ describe('#Login', () => {
 
     expect(passwordStatus.title).toBe('Campo obrigatório')
     expect(passwordStatus.textContent).toBe('🔴')
+  })
+
+  it('should call Validation with correct email', () => {
+    const { sut, validationSpy } = makeSut()
+
+    const emailInput = sut.getByTestId('email')
+    fireEvent.input(emailInput, { target: { value: 'any_email' } })
+
+    expect(validationSpy.input).toEqual({
+      email: 'any_email'
+    })
   })
 })

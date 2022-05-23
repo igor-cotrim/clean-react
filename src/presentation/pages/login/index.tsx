@@ -42,6 +42,8 @@ const Login = ({ validation, authentication }: LoginProps) => {
   ): Promise<void> => {
     e.preventDefault()
 
+    if (state.isLoading) return
+
     setState({ ...state, isLoading: true })
     await authentication.auth({ email: state.email, password: state.password })
   }

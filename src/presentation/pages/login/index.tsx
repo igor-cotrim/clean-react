@@ -38,26 +38,54 @@ const Login = ({ validation, authentication }: LoginProps) => {
   }, [state.email, state.password, validation])
 
   const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
-    e.preventDefault()
-
+    event.preventDefault()
     try {
-      if (state.isLoading || state.emailError || state.passwordError) return
-
-      setState({ ...state, isLoading: true })
-      await authentication?.auth({
+      if (state.isLoading || state.emailError || state.passwordError) {
+        return
+      }
+      setState((prev) => ({ ...prev, isLoading: true }))
+      const account = await authentication.auth({
         email: state.email,
         password: state.password
       })
+
+      if (account?.accessToken) {
+        localStorage.setItem('accessToken', account.accessToken)
+      }
     } catch (error: any) {
-      setState({
-        ...state,
+      setState((prev) => ({
+        ...prev,
         isLoading: false,
         mainError: error.message
-      })
+      }))
     }
   }
+
+  // const handleSubmit = async (
+  //   e: React.FormEvent<HTMLFormElement>
+  // ): Promise<void> => {
+  //   e.preventDefault()
+
+  //   try {
+  //     if (state.isLoading || state.emailError || state.passwordError) return
+
+  //     setState({ ...state, isLoading: true })
+  //     const account = await authentication?.auth({
+  //       email: state.email,
+  //       password: state.password
+  //     })
+
+  //     if (account) localStorage.setItem('accessToken', account?.accessToken)
+  //   } catch (error: any) {
+  //     setState({
+  //       ...state,
+  //       isLoading: false,
+  //       mainError: error.message
+  //     })
+  //   }
+  // }
 
   return (
     <S.Wrapper>

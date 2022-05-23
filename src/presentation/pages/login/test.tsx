@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import 'jest-localstorage-mock'
 
 import {
   cleanup,
@@ -79,6 +80,10 @@ const simulateStatusForField = (
 
 describe('#Login', () => {
   afterEach(cleanup)
+
+  beforeEach(() => {
+    localStorage.clear()
+  })
 
   it('should start with initial state', () => {
     const { sut, validationStub } = makeSut()

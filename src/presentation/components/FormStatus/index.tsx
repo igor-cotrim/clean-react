@@ -4,13 +4,13 @@ import * as S from './styles'
 
 type FormStatusProps = {
   isLoading: boolean
-  errorMessage: string
+  mainError: string
 }
 
-const FormStatus = ({ isLoading, errorMessage }: FormStatusProps) => (
+const FormStatus = ({ isLoading, mainError }: FormStatusProps) => (
   <S.ErrorWrapper data-testid="error-wrapper">
     {isLoading && <Spinner />}
-    {errorMessage && <S.Error>{errorMessage}</S.Error>}
+    {mainError && <S.Error>{mainError}</S.Error>}
   </S.ErrorWrapper>
 )
 

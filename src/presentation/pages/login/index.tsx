@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { Validation } from '@/presentation/protocols/validation'
 import {
   Footer,
   FormStatus,
@@ -10,15 +11,22 @@ import {
 
 import * as S from './styles'
 
-const Login = () => {
-  const [state] = useState({
-    isLoading: false
+type LoginProps = {
+  validation?: Validation
+}
+
+const Login = ({ validation }: LoginProps) => {
+  const [state, setState] = useState({
+    isLoading: false,
+    email: '',
+    emailError: 'Campo obrigatório',
+    passwordError: 'Campo obrigatório',
+    mainError: ''
   })
-  const [errorState] = useState({
-    email: 'Campo obrigatório',
-    password: 'Campo obrigatório',
-    main: ''
-  })
+
+  useEffect(() => {
+    validation?.validate({ email: state.email })
+  }, [state.email, validation])
 
   return (
     <S.Wrapper>
@@ -26,13 +34,15 @@ const Login = () => {
       <S.LoginForm>
         <S.Subtitle>Login</S.Subtitle>
         <Input
-          state={errorState.email}
+          state={state.emailError}
+          setState={setState}
           type="email"
           name="email"
           placeholder="Digite seu e-mail"
         />
         <Input
-          state={errorState.password}
+          state={state.passwordError}
+          setState={setState}
           type="password"
           name="password"
           placeholder="Digite sua senha"
@@ -41,10 +51,7 @@ const Login = () => {
           Entrar
         </SubmitButton>
         <S.LinkToSignup>Criar conta</S.LinkToSignup>
-        <FormStatus
-          isLoading={state.isLoading}
-          errorMessage={errorState.main}
-        />
+        <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
       </S.LoginForm>
       <Footer />
     </S.Wrapper>

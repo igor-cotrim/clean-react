@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": false,
+    "strictPropertyInitialization": false
 
   },
   "exclude": ["node_modules", "cypress"],

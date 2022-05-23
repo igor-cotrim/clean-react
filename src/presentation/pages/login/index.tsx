@@ -54,7 +54,11 @@ const Login = ({ validation }: LoginProps) => {
           name="password"
           placeholder="Digite sua senha"
         />
-        <SubmitButton disabled type="submit" data-testid="submit">
+        <SubmitButton
+          disabled={!!state.emailError || !!state.passwordError}
+          type="submit"
+          data-testid="submit"
+        >
           Entrar
         </SubmitButton>
         <S.LinkToSignup>Criar conta</S.LinkToSignup>

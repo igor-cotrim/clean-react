@@ -28,8 +28,8 @@ const Login = ({ validation }: LoginProps) => {
   useEffect(() => {
     setState({
       ...state,
-      emailError: validation.validate('email', state.email),
-      passwordError: validation.validate('password', state.password)
+      emailError: validation?.validate('email', state.email),
+      passwordError: validation?.validate('password', state.password)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

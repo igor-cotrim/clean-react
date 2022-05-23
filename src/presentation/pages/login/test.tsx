@@ -144,7 +144,7 @@ describe('#Login', () => {
     expect(spinner).toBeTruthy()
   })
 
-  it('should call Authentication with correct values', async () => {
+  it('should call Authentication with correct values', () => {
     const { sut, authenticationSpy } = makeSut()
     const email = faker.internet.email()
     const password = faker.internet.password()
@@ -157,7 +157,7 @@ describe('#Login', () => {
     })
   })
 
-  it('should call Authentication only once', async () => {
+  it('should call Authentication only once', () => {
     const { sut, authenticationSpy } = makeSut()
 
     simulateValidSubmit(sut)
@@ -166,7 +166,7 @@ describe('#Login', () => {
     expect(authenticationSpy.callsCount).toBe(1)
   })
 
-  it('should call Authentication if form is invalid', async () => {
+  it('should call Authentication if form is invalid', () => {
     const { sut, validationStub, authenticationSpy } = makeSut()
 
     validationStub.errorMessage = faker.random.words()

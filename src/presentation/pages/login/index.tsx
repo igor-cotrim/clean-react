@@ -42,7 +42,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
   ): Promise<void> => {
     e.preventDefault()
 
-    if (state.isLoading) return
+    if (state.isLoading || state.emailError || state.passwordError) return
 
     setState({ ...state, isLoading: true })
     await authentication.auth({ email: state.email, password: state.password })
@@ -51,7 +51,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
   return (
     <S.Wrapper>
       <LoginHeader />
-      <S.LoginForm onSubmit={handleSubmit}>
+      <S.LoginForm data-testid="form" onSubmit={handleSubmit}>
         <S.Subtitle>Login</S.Subtitle>
         <Input
           state={state}

@@ -19,14 +19,21 @@ const Login = ({ validation }: LoginProps) => {
   const [state, setState] = useState({
     isLoading: false,
     email: '',
+    password: '',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
     mainError: ''
   })
 
   useEffect(() => {
-    validation?.validate({ email: state.email })
-  }, [state.email, validation])
+    if (state.email) {
+      validation?.validate({ email: state.email })
+    }
+
+    if (state.password) {
+      validation?.validate({ password: state.password })
+    }
+  }, [state.email, state.password, validation])
 
   return (
     <S.Wrapper>

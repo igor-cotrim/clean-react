@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols/validation'
 import {
   Footer,
@@ -10,7 +11,6 @@ import {
 } from '@/presentation/components'
 
 import * as S from './styles'
-import { Authentication } from '@/domain/usecases'
 
 type LoginProps = {
   validation: Validation

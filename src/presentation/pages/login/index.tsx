@@ -10,12 +10,14 @@ import {
 } from '@/presentation/components'
 
 import * as S from './styles'
+import { Authentication } from '@/domain/usecases'
 
 type LoginProps = {
   validation: Validation
+  authentication: Authentication
 }
 
-const Login = ({ validation }: LoginProps) => {
+const Login = ({ validation, authentication }: LoginProps) => {
   const [state, setState] = useState({
     isLoading: false,
     email: '',
@@ -35,10 +37,13 @@ const Login = ({ validation }: LoginProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.email, state.password, validation])
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault()
 
     setState({ ...state, isLoading: true })
+    await authentication.auth({ email: state.email, password: state.password })
   }
 
   return (
@@ -47,15 +52,17 @@ const Login = ({ validation }: LoginProps) => {
       <S.LoginForm onSubmit={handleSubmit}>
         <S.Subtitle>Login</S.Subtitle>
         <Input
-          state={state.emailError}
+          state={state}
           setState={setState}
+          error={state.emailError}
           type="email"
           name="email"
           placeholder="Digite seu e-mail"
         />
         <Input
-          state={state.passwordError}
+          state={state}
           setState={setState}
+          error={state.passwordError}
           type="password"
           name="password"
           placeholder="Digite sua senha"

@@ -19,7 +19,7 @@ type SutTypes = {
   authenticationSpy: AuthenticationSpy
 }
 
-const history = createMemoryHistory()
+const history = createMemoryHistory({ initialEntries: ['/login'] })
 
 const makeSut = (): SutTypes => {
   const validationStub = new ValidationStub()
@@ -185,6 +185,11 @@ describe('#Login', () => {
     fireEvent.submit(sut.getByTestId('form'))
 
     expect(authenticationSpy.callsCount).toBe(0)
+  })
+
+  it('should go to home page', () => {
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 
   it('should go to signup page', () => {

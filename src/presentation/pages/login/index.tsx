@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols/validation'
@@ -63,30 +64,6 @@ const Login = ({ validation, authentication }: LoginProps) => {
     }
   }
 
-  // const handleSubmit = async (
-  //   e: React.FormEvent<HTMLFormElement>
-  // ): Promise<void> => {
-  //   e.preventDefault()
-
-  //   try {
-  //     if (state.isLoading || state.emailError || state.passwordError) return
-
-  //     setState({ ...state, isLoading: true })
-  //     const account = await authentication?.auth({
-  //       email: state.email,
-  //       password: state.password
-  //     })
-
-  //     if (account) localStorage.setItem('accessToken', account?.accessToken)
-  //   } catch (error: any) {
-  //     setState({
-  //       ...state,
-  //       isLoading: false,
-  //       mainError: error.message
-  //     })
-  //   }
-  // }
-
   return (
     <S.Wrapper>
       <LoginHeader />
@@ -115,7 +92,10 @@ const Login = ({ validation, authentication }: LoginProps) => {
         >
           Entrar
         </SubmitButton>
-        <S.LinkToSignup>Criar conta</S.LinkToSignup>
+        <Link data-testid="signup" to="/signup">
+          Criar conta
+        </Link>
+        {/* <S.LinkToSignup>Criar conta</S.LinkToSignup> */}
         <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
       </S.LoginForm>
       <Footer />

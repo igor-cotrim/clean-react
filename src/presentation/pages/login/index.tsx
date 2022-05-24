@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols/validation'
@@ -27,6 +27,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
     passwordError: '',
     mainError: ''
   })
+  const history = useHistory()
 
   useEffect(() => {
     setState({
@@ -52,9 +53,10 @@ const Login = ({ validation, authentication }: LoginProps) => {
         password: state.password
       })
 
-      if (account?.accessToken) {
+      if (account) {
         localStorage.setItem('accessToken', account.accessToken)
       }
+      history.replace('/')
     } catch (error: any) {
       setState((prev) => ({
         ...prev,
@@ -92,10 +94,11 @@ const Login = ({ validation, authentication }: LoginProps) => {
         >
           Entrar
         </SubmitButton>
-        <Link data-testid="signup" to="/signup">
-          Criar conta
-        </Link>
-        {/* <S.LinkToSignup>Criar conta</S.LinkToSignup> */}
+        <S.LinkToSignup>
+          <Link data-testid="signup" to="/signup">
+            Criar conta
+          </Link>
+        </S.LinkToSignup>
         <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
       </S.LoginForm>
       <Footer />

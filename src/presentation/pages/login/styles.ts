@@ -36,10 +36,14 @@ export const Subtitle = styled.h2`
 export const LinkToSignup = styled.span`
   ${({ theme }) => css`
     text-align: center;
-    color: ${theme.colors.primary};
-    text-transform: lowercase;
     margin-top: 16px;
-    cursor: pointer;
+
+    > a {
+      color: ${theme.colors.primary};
+      text-transform: lowercase;
+      cursor: pointer;
+      text-decoration: none;
+    }
 
     &:hover {
       text-decoration: underline;

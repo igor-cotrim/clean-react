@@ -10,7 +10,7 @@ type FormStatusProps = {
 const FormStatus = ({ isLoading, mainError }: FormStatusProps) => (
   <S.ErrorWrapper data-testid="error-wrapper">
     {isLoading && <Spinner />}
-    {mainError && <S.Error>{mainError}</S.Error>}
+    {mainError && <S.Error data-testid="main-error">{mainError}</S.Error>}
   </S.ErrorWrapper>
 )
 

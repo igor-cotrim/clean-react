@@ -43,6 +43,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault()
+
     try {
       if (state.isLoading || state.emailError || state.passwordError) {
         return

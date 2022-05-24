@@ -8,9 +8,11 @@ import {
   fireEvent,
   render,
   RenderResult,
+  screen,
   waitFor
 } from '@/presentation/utils/test-utils'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 import Login from '.'
 
@@ -203,6 +205,17 @@ describe('#Login', () => {
     await simulateValidSubmit(sut)
 
     expect(authenticationSpy.callsCount).toBe(0)
+  })
+
+  it('Should present error if Authentication fails', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(authenticationSpy, 'auth').mockRejectedValueOnce(error)
+
+    await simulateValidSubmit(sut)
+
+    // expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
   })
 
   it('should add accessToken to localstorage on success', async () => {

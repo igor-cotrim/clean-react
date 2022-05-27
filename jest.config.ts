@@ -12,13 +12,18 @@ export default {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: true,
+  collectCoverage: false,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/main/**/*',
     '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/domain/**/*',
+    '!<rootDir>/src/presentation/styles/**/*',
+    '!<rootDir>/src/presentation/components/routes/**/*',
+    '!<rootDir>/src/presentation/protocols/**/*',
+    '!<rootDir>/src/validation/protocols/**/*',
     '!**/*.d.ts'
   ],
 

@@ -12,9 +12,8 @@ import {
   waitFor
 } from '@/presentation/utils/test-utils'
 import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
+import { Login } from '@/presentation/pages'
 import { InvalidCredentialsError } from '@/domain/errors'
-
-import Login from '.'
 
 type SutTypes = {
   sut: RenderResult

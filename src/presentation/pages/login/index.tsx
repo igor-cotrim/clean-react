@@ -58,7 +58,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
         localStorage.setItem('accessToken', account.accessToken)
       }
       history.replace('/')
-    } catch (error: any) {
+    } catch (error) {
       setState((prev) => ({
         ...prev,
         isLoading: false,

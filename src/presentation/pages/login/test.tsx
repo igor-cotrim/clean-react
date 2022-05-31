@@ -219,7 +219,6 @@ describe('#Login', () => {
 
     await simulateValidSubmit(sut)
 
-    // expect(screen.getByTestId('main-error')).toHaveTextContent(error.message)
     expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
   })
 
@@ -233,6 +232,16 @@ describe('#Login', () => {
     )
     expect(history.length).toBe(1)
     expect(history.location.pathname).toBe('/')
+  })
+
+  it('Should present error if SaveAccessToken fails', async () => {
+    const { sut, saveAccessTokenMock } = makeSut()
+    const error = new InvalidCredentialsError()
+    jest.spyOn(saveAccessTokenMock, 'save').mockRejectedValueOnce(error)
+
+    await simulateValidSubmit(sut)
+
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
   })
 
   it('should go to signup page', () => {

@@ -20,8 +20,9 @@ const SignUp = ({ validation }: SignUpProps) => {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
+    email: '',
     nameError: '',
-    emailError: 'Campo obrigatório',
+    emailError: '',
     passwordError: 'Campo obrigatório',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: ''
@@ -30,11 +31,12 @@ const SignUp = ({ validation }: SignUpProps) => {
   useEffect(() => {
     setState({
       ...state,
-      nameError: validation?.validate('name', state.name)
+      nameError: validation?.validate('name', state.name),
+      emailError: validation?.validate('email', state.email)
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.name, validation])
+  }, [state.name, state.email, validation])
 
   return (
     <S.Wrapper>
@@ -42,7 +44,7 @@ const SignUp = ({ validation }: SignUpProps) => {
       <S.SignUpForm>
         <S.Subtitle>Criar Conta</S.Subtitle>
         <Input
-          state={{}}
+          state={state}
           setState={setState}
           error={state.nameError}
           type="text"
@@ -50,7 +52,7 @@ const SignUp = ({ validation }: SignUpProps) => {
           placeholder="Digite seu nome"
         />
         <Input
-          state={{}}
+          state={state}
           setState={setState}
           error={state.emailError}
           type="email"
@@ -58,7 +60,7 @@ const SignUp = ({ validation }: SignUpProps) => {
           placeholder="Digite seu e-mail"
         />
         <Input
-          state={{}}
+          state={state}
           setState={setState}
           error={state.passwordError}
           type="password"
@@ -66,7 +68,7 @@ const SignUp = ({ validation }: SignUpProps) => {
           placeholder="Digite sua senha"
         />
         <Input
-          state={{}}
+          state={state}
           setState={setState}
           error={state.passwordConfirmationError}
           type="password"

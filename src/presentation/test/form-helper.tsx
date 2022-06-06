@@ -1,4 +1,6 @@
-import { RenderResult } from '@/presentation/utils/test-utils'
+import { faker } from '@faker-js/faker'
+
+import { fireEvent, RenderResult } from '@/presentation/utils/test-utils'
 
 export const testStatusForField = (
   sut: RenderResult,
@@ -27,4 +29,16 @@ export const testButtonIsDisabled = (
 ): void => {
   const button = sut.getByTestId(fieldName) as HTMLButtonElement
   expect(button.disabled).toBe(isDisabled)
+}
+
+export const populateField = (
+  sut: RenderResult,
+  fieldName: string,
+  value = faker.random.word()
+): void => {
+  const input = sut.getByTestId(fieldName)
+
+  fireEvent.input(input, {
+    target: { value }
+  })
 }

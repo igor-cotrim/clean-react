@@ -22,6 +22,7 @@ const SignUp = ({ validation }: SignUpProps) => {
     name: '',
     email: '',
     password: '',
+    passwordConfirmation: '',
     nameError: '',
     emailError: '',
     passwordError: 'Campo obrigatório',
@@ -34,11 +35,21 @@ const SignUp = ({ validation }: SignUpProps) => {
       ...state,
       nameError: validation?.validate('name', state.name),
       emailError: validation?.validate('email', state.email),
-      passwordError: validation?.validate('password', state.password)
+      passwordError: validation?.validate('password', state.password),
+      passwordConfirmationError: validation?.validate(
+        'passwordConfirmation',
+        state.passwordConfirmation
+      )
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.name, state.email, state.password, validation])
+  }, [
+    state.name,
+    state.email,
+    state.password,
+    state.passwordConfirmation,
+    validation
+  ])
 
   return (
     <S.Wrapper>

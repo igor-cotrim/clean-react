@@ -96,7 +96,7 @@ const Login = ({ validation, authentication, saveAccessToken }: LoginProps) => {
           Entrar
         </SubmitButton>
         <S.LinkToSignup>
-          <Link data-testid="signup" to="/signup">
+          <Link data-testid="signup-link" to="/signup">
             Criar conta
           </Link>
         </S.LinkToSignup>

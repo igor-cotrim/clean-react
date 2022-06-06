@@ -22,6 +22,7 @@ type SignUpProps = {
 const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     name: '',
     email: '',
     password: '',
@@ -35,15 +36,25 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
   const history = useHistory()
 
   useEffect(() => {
+    const nameError = validation?.validate('name', state.name)
+    const emailError = validation?.validate('email', state.email)
+    const passwordError = validation?.validate('password', state.password)
+    const passwordConfirmationError = validation?.validate(
+      'passwordConfirmation',
+      state.passwordConfirmation
+    )
+
     setState({
       ...state,
-      nameError: validation?.validate('name', state.name),
-      emailError: validation?.validate('email', state.email),
-      passwordError: validation?.validate('password', state.password),
-      passwordConfirmationError: validation?.validate(
-        'passwordConfirmation',
-        state.passwordConfirmation
-      )
+      nameError,
+      emailError,
+      passwordError,
+      passwordConfirmationError,
+      isFormInvalid:
+        !!nameError ||
+        !!emailError ||
+        !!passwordError ||
+        !!passwordConfirmationError
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,6 +63,7 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
     state.email,
     state.password,
     state.passwordConfirmation,
+    state.isFormInvalid,
     validation
   ])
 
@@ -61,13 +73,7 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
     event.preventDefault()
 
     try {
-      if (
-        state.isLoading ||
-        state.nameError ||
-        state.emailError ||
-        state.passwordError ||
-        state.passwordConfirmationError
-      ) {
+      if (state.isLoading || state.isFormInvalid) {
         return
       }
 
@@ -129,17 +135,8 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
           name="passwordConfirmation"
           placeholder="Repita sua senha"
         />
-        <SubmitButton
-          disabled={
-            !!state.nameError ||
-            !!state.emailError ||
-            !!state.passwordError ||
-            !!state.passwordConfirmationError
-          }
-          type="submit"
-          data-testid="submit"
-        >
-          Entrar
+        <SubmitButton disabled={state.isFormInvalid} type="submit">
+          Cadastrar
         </SubmitButton>
         <S.LinkToLogin>
           <Link data-testid="login-link" to="/login" replace>

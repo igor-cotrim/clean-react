@@ -22,6 +22,7 @@ type LoginProps = {
 const Login = ({ validation, authentication, saveAccessToken }: LoginProps) => {
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     email: '',
     password: '',
     emailError: '',
@@ -31,14 +32,18 @@ const Login = ({ validation, authentication, saveAccessToken }: LoginProps) => {
   const history = useHistory()
 
   useEffect(() => {
+    const emailError = validation?.validate('email', state.email)
+    const passwordError = validation?.validate('password', state.password)
+
     setState({
       ...state,
-      emailError: validation?.validate('email', state.email),
-      passwordError: validation?.validate('password', state.password)
+      emailError,
+      passwordError,
+      isFormInvalid: !!emailError || !!passwordError
     })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.email, state.password, validation])
+  }, [state.email, state.password, state.isFormInvalid, validation])
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -46,7 +51,7 @@ const Login = ({ validation, authentication, saveAccessToken }: LoginProps) => {
     event.preventDefault()
 
     try {
-      if (state.isLoading || state.emailError || state.passwordError) {
+      if (state.isLoading || state.isFormInvalid) {
         return
       }
       setState((prev) => ({ ...prev, isLoading: true }))
@@ -88,11 +93,7 @@ const Login = ({ validation, authentication, saveAccessToken }: LoginProps) => {
           name="password"
           placeholder="Digite sua senha"
         />
-        <SubmitButton
-          disabled={!!state.emailError || !!state.passwordError}
-          type="submit"
-          data-testid="submit"
-        >
+        <SubmitButton disabled={state.isFormInvalid} type="submit">
           Entrar
         </SubmitButton>
         <S.LinkToSignup>

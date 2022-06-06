@@ -1,4 +1,6 @@
 import { faker } from '@faker-js/faker'
+import { Router } from 'react-router-dom'
+import { createMemoryHistory } from 'history'
 
 import {
   cleanup,
@@ -8,7 +10,12 @@ import {
   screen,
   waitFor
 } from '@/presentation/utils/test-utils'
-import { AddAccountSpy, Helper, ValidationStub } from '@/presentation/test'
+import {
+  AddAccountSpy,
+  Helper,
+  SaveAccessTokenMock,
+  ValidationStub
+} from '@/presentation/test'
 import { EmailInUseError } from '@/domain/errors'
 
 import SignUp from '.'
@@ -16,25 +23,36 @@ import SignUp from '.'
 type SutTypes = {
   sut: RenderResult
   addAccountSpy: AddAccountSpy
+  saveAccessTokenMock: SaveAccessTokenMock
 }
 
 type SutParams = {
   validationError: string
 }
 
+const history = createMemoryHistory({ initialEntries: ['/signup'] })
+
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const addAccountSpy = new AddAccountSpy()
+  const saveAccessTokenMock = new SaveAccessTokenMock()
 
   validationStub.errorMessage = params?.validationError
 
   const sut = render(
-    <SignUp validation={validationStub} addAccount={addAccountSpy} />
+    <Router history={history}>
+      <SignUp
+        validation={validationStub}
+        addAccount={addAccountSpy}
+        saveAccessToken={saveAccessTokenMock}
+      />
+    </Router>
   )
 
   return {
     sut,
-    addAccountSpy
+    addAccountSpy,
+    saveAccessTokenMock
   }
 }
 
@@ -192,5 +210,17 @@ describe('#SignUp', () => {
     await simulateValidSubmit(sut)
 
     expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
+  })
+
+  it('should call SaveAccessToken on success', async () => {
+    const { sut, addAccountSpy, saveAccessTokenMock } = makeSut()
+
+    await simulateValidSubmit(sut)
+
+    expect(saveAccessTokenMock.accessToken).toBe(
+      addAccountSpy.account.accessToken
+    )
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/')
   })
 })

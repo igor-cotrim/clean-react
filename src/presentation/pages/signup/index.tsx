@@ -25,8 +25,8 @@ const SignUp = ({ validation }: SignUpProps) => {
     passwordConfirmation: '',
     nameError: '',
     emailError: '',
-    passwordError: 'Campo obrigatório',
-    passwordConfirmationError: 'Campo obrigatório',
+    passwordError: '',
+    passwordConfirmationError: '',
     mainError: ''
   })
 

@@ -89,8 +89,12 @@ const SignUp = ({ validation }: SignUpProps) => {
           placeholder="Repita sua senha"
         />
         <SubmitButton
-          // disabled={!!state.emailError || !!state.passwordError}
-          disabled
+          disabled={
+            !!state.nameError ||
+            !!state.emailError ||
+            !!state.passwordError ||
+            !!state.passwordConfirmationError
+          }
           type="submit"
           data-testid="submit"
         >

@@ -234,4 +234,14 @@ describe('#SignUp', () => {
 
     expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
   })
+
+  it('should go to login page', () => {
+    const { sut } = makeSut()
+    const loginLink = sut.getByTestId('login-link')
+
+    fireEvent.click(loginLink)
+
+    expect(history.length).toBe(1)
+    expect(history.location.pathname).toBe('/login')
+  })
 })

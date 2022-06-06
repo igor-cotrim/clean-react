@@ -58,7 +58,13 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
   ): Promise<void> => {
     event.preventDefault()
 
-    if (state.isLoading) {
+    if (
+      state.isLoading ||
+      state.nameError ||
+      state.emailError ||
+      state.passwordError ||
+      state.passwordConfirmationError
+    ) {
       return
     }
 

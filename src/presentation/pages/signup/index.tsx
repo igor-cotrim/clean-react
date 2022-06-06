@@ -58,6 +58,10 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
   ): Promise<void> => {
     event.preventDefault()
 
+    if (state.isLoading) {
+      return
+    }
+
     setState((prev) => ({ ...prev, isLoading: true }))
 
     await addAccount.add({

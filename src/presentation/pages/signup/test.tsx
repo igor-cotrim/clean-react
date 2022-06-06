@@ -5,9 +5,11 @@ import {
   fireEvent,
   render,
   RenderResult,
+  screen,
   waitFor
 } from '@/presentation/utils/test-utils'
 import { AddAccountSpy, Helper, ValidationStub } from '@/presentation/test'
+import { EmailInUseError } from '@/domain/errors'
 
 import SignUp from '.'
 
@@ -180,5 +182,15 @@ describe('#SignUp', () => {
     await simulateValidSubmit(sut)
 
     expect(addAccountSpy.callsCount).toBe(0)
+  })
+
+  it('Should present error if AddAccount fails', async () => {
+    const { sut, addAccountSpy } = makeSut()
+    const error = new EmailInUseError()
+    jest.spyOn(addAccountSpy, 'add').mockRejectedValueOnce(error)
+
+    await simulateValidSubmit(sut)
+
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(1)
   })
 })

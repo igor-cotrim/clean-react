@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-// import { Link } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 
 import { Validation } from '@/presentation/protocols/validation'
 import { AddAccount, SaveAccessToken } from '@/domain/usecases'
@@ -143,8 +142,9 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
           Entrar
         </SubmitButton>
         <S.LinkToLogin>
-          {/* <Link to="/login">Voltar Para Login</Link> */}
-          <span>Voltar Para Login</span>
+          <Link data-testid="login-link" to="/login" replace>
+            Voltar Para Login
+          </Link>
         </S.LinkToLogin>
         <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
       </S.SignUpForm>

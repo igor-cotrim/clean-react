@@ -51,10 +51,18 @@ const SignUp = ({ validation }: SignUpProps) => {
     validation
   ])
 
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    event.preventDefault()
+
+    setState((prev) => ({ ...prev, isLoading: true }))
+  }
+
   return (
     <S.Wrapper>
       <LoginHeader />
-      <S.SignUpForm>
+      <S.SignUpForm data-testid="form" onSubmit={handleSubmit}>
         <S.Subtitle>Criar Conta</S.Subtitle>
         <Input
           state={state}

@@ -70,11 +70,6 @@ const simulateValidSubmit = async (
   await waitFor(() => form)
 }
 
-const testElementExists = (sut: RenderResult, fieldName: string): void => {
-  const el = sut.getByTestId(fieldName)
-  expect(el).toBeTruthy()
-}
-
 describe('#Login', () => {
   afterEach(cleanup)
 
@@ -135,7 +130,7 @@ describe('#Login', () => {
 
     await simulateValidSubmit(sut)
 
-    testElementExists(sut, 'spinner')
+    Helper.testElementExists(sut, 'spinner')
   })
 
   it('should call Authentication with correct values', async () => {

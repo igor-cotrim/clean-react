@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
 
 import { Validation } from '@/presentation/protocols/validation'
+import { AddAccount } from '@/domain/usecases'
 import {
   Footer,
   FormStatus,
@@ -14,9 +15,10 @@ import * as S from './styles'
 
 type SignUpProps = {
   validation: Validation
+  addAccount: AddAccount
 }
 
-const SignUp = ({ validation }: SignUpProps) => {
+const SignUp = ({ validation, addAccount }: SignUpProps) => {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -57,6 +59,13 @@ const SignUp = ({ validation }: SignUpProps) => {
     event.preventDefault()
 
     setState((prev) => ({ ...prev, isLoading: true }))
+
+    await addAccount.add({
+      name: state.name,
+      email: state.email,
+      password: state.password,
+      passwordConfirmation: state.passwordConfirmation
+    })
   }
 
   return (

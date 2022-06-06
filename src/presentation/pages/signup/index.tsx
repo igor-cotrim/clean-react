@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import { Link } from 'react-router-dom'
 
+import { Validation } from '@/presentation/protocols/validation'
 import {
   Footer,
   FormStatus,
@@ -11,15 +12,29 @@ import {
 
 import * as S from './styles'
 
-const SignUp = () => {
-  const [state] = useState({
+type SignUpProps = {
+  validation: Validation
+}
+
+const SignUp = ({ validation }: SignUpProps) => {
+  const [state, setState] = useState({
     isLoading: false,
-    nameError: 'Campo obrigatório',
+    name: '',
+    nameError: '',
     emailError: 'Campo obrigatório',
     passwordError: 'Campo obrigatório',
     passwordConfirmationError: 'Campo obrigatório',
     mainError: ''
   })
+
+  useEffect(() => {
+    setState({
+      ...state,
+      nameError: validation?.validate('name', state.name)
+    })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.name, validation])
 
   return (
     <S.Wrapper>
@@ -28,7 +43,7 @@ const SignUp = () => {
         <S.Subtitle>Criar Conta</S.Subtitle>
         <Input
           state={{}}
-          setState={{}}
+          setState={setState}
           error={state.nameError}
           type="text"
           name="name"
@@ -36,7 +51,7 @@ const SignUp = () => {
         />
         <Input
           state={{}}
-          setState={{}}
+          setState={setState}
           error={state.emailError}
           type="email"
           name="email"
@@ -44,7 +59,7 @@ const SignUp = () => {
         />
         <Input
           state={{}}
-          setState={{}}
+          setState={setState}
           error={state.passwordError}
           type="password"
           name="password"
@@ -52,7 +67,7 @@ const SignUp = () => {
         />
         <Input
           state={{}}
-          setState={{}}
+          setState={setState}
           error={state.passwordConfirmationError}
           type="password"
           name="passwordConfirmation"

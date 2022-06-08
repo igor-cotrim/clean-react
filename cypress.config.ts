@@ -4,7 +4,7 @@ export default defineConfig({
   e2e: {
     // baseUrl: 'http://localhost:3000',
     fixturesFolder: false,
-    supportFile: false,
+    supportFile: 'src/main/test/cypress/support/index.js',
     video: false,
     chromeWebSecurity: false,
     defaultCommandTimeout: 15000,

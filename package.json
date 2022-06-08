@@ -10,6 +10,7 @@
     "test:staged": "yarn test --findRelatedTests",
     "test:ci": "yarn test --coverage",
     "cy:open": "cypress open",
+    "cy:run": "cypress run",
     "check": "yarn-check -u -s",
     "prepare": "husky install"
   },

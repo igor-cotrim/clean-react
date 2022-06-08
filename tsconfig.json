@@ -20,5 +20,5 @@
 
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "src/main/test/cypress", "./cypress.config.ts"]
+  "exclude": ["node_modules", "./cypress.config.ts"]
 }

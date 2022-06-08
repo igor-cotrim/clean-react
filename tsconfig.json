@@ -19,6 +19,6 @@
     "strictPropertyInitialization": false
 
   },
-  "exclude": ["node_modules", "cypress"],
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "src/main/test/cypress", "./cypress.config.ts"]
 }

@@ -53,29 +53,84 @@ describe('Login', () => {
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
 
-  it('should present error if invalid credentials are provided', () => {
+  it('should present invalidCredentialsError on 401', () => {
+    cy.intercept({
+      method: 'POST',
+      url: /login/,
+      
+    }, {
+      statusCode: 401
+    })
+
     cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
     cy.getByTestId('password').focus().type('igor12345')
     cy.getByTestId('submit').click()
     
-    cy.getByTestId('error-wrapper')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
-      .getByTestId('spinner').should('not.exist')
-      .getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Credenciais inválidas')
+    
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('should present unexpectedError on 400 or 404 or 500', () => {
+    cy.intercept({
+      method: 'POST',
+      url: /login/,
+      
+    }, {
+      statusCode: 400 || 404 || 500
+    })
+
+    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
+    cy.getByTestId('password').focus().type('igor12345')
+    cy.getByTestId('submit').click()
+    
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
+    
+    cy.url().should('eq', `${baseUrl}/login`)
+  })
+
+  it('should present unexpectedError if invalid data is returned', () => {
+    cy.intercept({
+      method: 'POST',
+      url: /login/,
+      
+    }, {
+      statusCode: 200,
+      body: {
+        invalidProperty: 'id'
+      }
+    })
+
+    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
+    cy.getByTestId('password').focus().type('igor12345')
+    cy.getByTestId('submit').click()
+    
+    cy.getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('contain.text', 'Algo de errado aconteceu. Tente novamente em breve.')
     
     cy.url().should('eq', `${baseUrl}/login`)
   })
 
   it('should present save accessToken if valid credentials are provided', () => {
+    cy.intercept({
+      method: 'POST',
+      url: /login/,
+      
+    }, {
+      statusCode: 200,
+      body: {
+        accessToken: 'id'
+      }
+    })
+
     cy.getByTestId('email').focus().type('mango@gmail.com')
     cy.getByTestId('password').focus().type('12345')
     cy.getByTestId('submit').click()
     
-    cy.getByTestId('error-wrapper')
-      .getByTestId('spinner').should('exist')
-      .getByTestId('main-error').should('not.exist')
-      .getByTestId('spinner').should('not.exist')
+    cy.getByTestId('main-error').should('not.exist')
+    cy.getByTestId('spinner').should('not.exist')
     
     cy.url().should('eq', `${baseUrl}/`)
     cy.window().then(window => assert.isOk(window.localStorage.getItem('accessToken')))

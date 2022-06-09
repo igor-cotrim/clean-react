@@ -12,10 +12,14 @@ const Input = ({ state, setState, error, ...props }: InputProps) => {
   const inputRef = useRef<HTMLInputElement>()
 
   return (
-    <S.InputWrapper>
+    <S.InputWrapper
+      data-status={error ? 'invalid' : 'valid'}
+      data-testid={`${props.name}-wrapper`}
+    >
       <S.Input
         data-testid={props.name}
         ref={inputRef}
+        title={error}
         onChange={(e) => {
           setState({
             ...state,
@@ -26,18 +30,14 @@ const Input = ({ state, setState, error, ...props }: InputProps) => {
         placeholder=" "
       />
       <S.Label
+        data-testid={`${props.name}-label`}
         onClick={() => {
           inputRef.current.focus()
         }}
+        title={error}
       >
         {props.placeholder}
       </S.Label>
-      <S.InputStatus
-        data-testid={`${props.name}-status`}
-        title={error ? error : 'Tudo certo!'}
-      >
-        {error ? '🔴' : '🟢'}
-      </S.InputStatus>
     </S.InputWrapper>
   )
 }

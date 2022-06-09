@@ -6,17 +6,33 @@ export const InputWrapper = styled.div`
     position: relative;
     border-bottom: 2px solid ${theme.colors.grayLight};
 
+    &[data-status='valid'] {
+      border-bottom-color: ${theme.colors.green};
+
+      &::after {
+        background: ${theme.colors.green};
+      }
+    }
+
+    &[data-status='invalid'] {
+      border-bottom-color: ${theme.colors.red};
+
+      &::after {
+        background: ${theme.colors.red};
+      }
+    }
+
     &::after {
       content: '';
       width: 100%;
       height: 2px;
-      background: ${theme.colors.primaryLight};
+      background: ${theme.colors.grayLight};
       position: absolute;
       bottom: -2px;
       left: 0;
       transform-origin: 0%;
       transform: scaleX(0);
-      transition: transform 500ms ease;
+      transition: transform 0.4s ease;
     }
 
     &:focus-within {
@@ -29,7 +45,7 @@ export const InputWrapper = styled.div`
       > label {
         color: ${theme.colors.primaryLight};
         transform: scale(0.7) translateY(-28px);
-        transition: transform 500ms ease;
+        transition: transform 0.4s ease;
       }
     }
   `}

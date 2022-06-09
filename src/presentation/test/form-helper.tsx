@@ -5,11 +5,17 @@ import { fireEvent, RenderResult } from '@/presentation/utils/test-utils'
 export const testStatusForField = (
   sut: RenderResult,
   fieldName: string,
-  validationError?: string
+  validationError = ''
 ): void => {
-  const fieldStatus = sut.getByTestId(`${fieldName}-status`)
-  expect(fieldStatus.title).toBe(validationError || 'Tudo certo!')
-  expect(fieldStatus.textContent).toBe(validationError ? '🔴' : '🟢')
+  const wrapper = sut.getByTestId(`${fieldName}-wrapper`)
+  const field = sut.getByTestId(fieldName)
+  const label = sut.getByTestId(`${fieldName}-label`)
+
+  expect(wrapper.getAttribute('data-status')).toBe(
+    validationError ? 'invalid' : 'valid'
+  )
+  expect(field.title).toBe(validationError)
+  expect(label.title).toBe(validationError)
 }
 
 export const testChildCount = (

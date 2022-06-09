@@ -33,7 +33,9 @@ export default {
     black: '#000',
     primary: '#880e4f',
     primaryDark: '#560027',
-    primaryLight: '#bc477b'
+    primaryLight: '#bc477b',
+    green: '#4caf50',
+    red: '#ef5350'
   },
   spacings: {
     xxsmall: '0.8rem',

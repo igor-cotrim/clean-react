@@ -7,7 +7,7 @@ export const SubmitButton = styled.button`
     border-radius: 8px;
     font-size: ${theme.font.sizes.xxsmall};
     border: none;
-    line-height: 60px;
+    line-height: 50px;
     cursor: pointer;
 
     &:disabled {

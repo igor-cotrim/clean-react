@@ -1,23 +1,60 @@
 import styled, { css } from 'styled-components'
 
 export const InputWrapper = styled.div`
-  margin-top: 16px;
-  display: flex;
-  align-items: center;
-  position: relative;
+  ${({ theme }) => css`
+    margin-top: 40px;
+    position: relative;
+    border-bottom: 2px solid ${theme.colors.grayLight};
+
+    &::after {
+      content: '';
+      width: 100%;
+      height: 2px;
+      background: ${theme.colors.primaryLight};
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      transform-origin: 0%;
+      transform: scaleX(0);
+      transition: transform 500ms ease;
+    }
+
+    &:focus-within {
+      border-color: transparent;
+
+      &::after {
+        transform: scaleX(1);
+      }
+
+      > label {
+        color: ${theme.colors.primaryLight};
+        transform: scale(0.7) translateY(-28px);
+        transition: transform 500ms ease;
+      }
+    }
+  `}
 `
 
 export const Input = styled.input`
-  ${({ theme }) => css`
-    border: 1px solid ${theme.colors.primaryLight};
-    line-height: 40px;
-    border-radius: 4px;
-    flex-grow: 1;
-    padding: 0 40px 0 8px;
+  border: none;
+  outline: none;
+  width: 100%;
+  line-height: 24px;
+  padding: 0 40px 0 8px;
 
-    &:focus {
-      outline-color: ${theme.colors.primaryLight};
-    }
+  &:not(:placeholder-shown) + label {
+    transform: scale(0.7) translateY(-28px);
+  }
+`
+
+export const Label = styled.label`
+  ${({ theme }) => css`
+    position: absolute;
+    left: 8px;
+    color: ${theme.colors.gray};
+    cursor: text;
+    transform-origin: 0%;
+    transform: translateY(0);
   `}
 `
 

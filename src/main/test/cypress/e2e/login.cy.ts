@@ -34,4 +34,20 @@ describe('Login', () => {
     
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
+
+  it('should present error state if form is valid', () => {
+    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
+    cy.getByTestId('email-status')
+      .should('have.attr', 'title', 'Tudo certo!')
+      .should('contain.text', '🟢')
+
+    cy.getByTestId('password').focus().type('12345')
+    cy.getByTestId('password-status')
+      .should('have.attr', 'title', 'Tudo certo!')
+      .should('contain.text', '🟢')
+
+    cy.getByTestId('submit').should('not.have.attr', 'disabled')
+    
+    cy.getByTestId('error-wrapper').should('not.have.descendants')
+  })
 })

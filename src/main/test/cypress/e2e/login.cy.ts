@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { faker } from '@faker-js/faker'
+
 const baseUrl: string = 'http://localhost:3000'
 
 describe('Login', () => {
@@ -22,12 +24,12 @@ describe('Login', () => {
   })
 
   it('should present error state if form is invalid', () => {
-    cy.getByTestId('email').focus().type('Igor')
+    cy.getByTestId('email').focus().type(faker.random.word())
     cy.getByTestId('email-status')
       .should('have.attr', 'title', 'Valor inválido')
       .should('contain.text', '🔴')
 
-    cy.getByTestId('password').focus().type('123')
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(3))
     cy.getByTestId('password-status')
       .should('have.attr', 'title', 'Valor inválido')
       .should('contain.text', '🔴')
@@ -38,12 +40,12 @@ describe('Login', () => {
   })
 
   it('should present valid state if form is valid', () => {
-    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
+    cy.getByTestId('email').focus().type(faker.internet.email())
     cy.getByTestId('email-status')
       .should('have.attr', 'title', 'Tudo certo!')
       .should('contain.text', '🟢')
 
-    cy.getByTestId('password').focus().type('12345')
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('password-status')
       .should('have.attr', 'title', 'Tudo certo!')
       .should('contain.text', '🟢')
@@ -57,13 +59,12 @@ describe('Login', () => {
     cy.intercept({
       method: 'POST',
       url: /login/,
-      
     }, {
       statusCode: 401
     })
 
-    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
-    cy.getByTestId('password').focus().type('igor12345')
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
     
     cy.getByTestId('spinner').should('not.exist')
@@ -76,13 +77,12 @@ describe('Login', () => {
     cy.intercept({
       method: 'POST',
       url: /login/,
-      
     }, {
       statusCode: 400 || 404 || 500
     })
 
-    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
-    cy.getByTestId('password').focus().type('igor12345')
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
     
     cy.getByTestId('spinner').should('not.exist')
@@ -95,16 +95,15 @@ describe('Login', () => {
     cy.intercept({
       method: 'POST',
       url: /login/,
-      
     }, {
       statusCode: 200,
       body: {
-        invalidProperty: 'id'
+        invalidProperty: faker.datatype.uuid()
       }
     })
 
-    cy.getByTestId('email').focus().type('igorxuxicotrim@gmail.com')
-    cy.getByTestId('password').focus().type('igor12345')
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    cy.getByTestId('password').focus().type(faker.random.alphaNumeric(5))
     cy.getByTestId('submit').click()
     
     cy.getByTestId('spinner').should('not.exist')
@@ -117,11 +116,10 @@ describe('Login', () => {
     cy.intercept({
       method: 'POST',
       url: /login/,
-      
     }, {
       statusCode: 200,
       body: {
-        accessToken: 'id'
+        accessToken: faker.datatype.uuid()
       }
     })
 

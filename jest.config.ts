@@ -24,6 +24,7 @@ export default {
     '!<rootDir>/src/presentation/components/routes/**/*',
     '!<rootDir>/src/presentation/protocols/**/*',
     '!<rootDir>/src/validation/protocols/**/*',
+    '!<rootDir>/src/data/protocols/cache/**/*',
     '!**/*.d.ts'
   ],
 

@@ -1,17 +1,8 @@
-import { useState } from 'react'
-
-import {
-  Footer,
-  IconThumbDown,
-  IconThumbUp,
-  Header
-} from '@/presentation/components'
+import { Footer, Header, Icon, IconName } from '@/presentation/components'
 
 import * as S from './styles'
 
 const SurveyList = () => {
-  const [readedPolls] = useState(false)
-
   return (
     <S.Wrapper>
       <Header />
@@ -20,9 +11,7 @@ const SurveyList = () => {
         <S.SurveyListList>
           <S.SurveyListListItem>
             <S.SurveyListContent>
-              <S.SurveyListIconContainer readedPolls={readedPolls}>
-                {readedPolls ? <IconThumbUp /> : <IconThumbDown />}
-              </S.SurveyListIconContainer>
+              <Icon className="icon-wrapper" iconName={IconName.thumbDowm} />
               <S.SurveyListTime>
                 <S.SurveyListTimeDay>22</S.SurveyListTimeDay>
                 <S.SurveyListTimeMonth>03</S.SurveyListTimeMonth>

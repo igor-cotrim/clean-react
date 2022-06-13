@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import media from 'styled-media-query'
 
 export const HeaderContainer = styled.header`
   ${({ theme }) => css`
@@ -6,6 +7,10 @@ export const HeaderContainer = styled.header`
     justify-content: center;
     background: ${theme.colors.primary};
     border-top: 40px solid ${theme.colors.primaryDark};
+
+    ${media.lessThan('medium')`
+      border-top-width: 20px;
+    `}
   `}
 `
 

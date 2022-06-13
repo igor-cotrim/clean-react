@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import media from 'styled-media-query'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -36,6 +37,10 @@ export const SurveyListList = styled.ul`
   justify-content: space-between;
   padding: 0;
   margin: 0;
+
+  ${media.lessThan('medium')`
+    flex-direction: column;
+  `}
 `
 
 export const SurveyListListItem = styled.li`
@@ -49,6 +54,11 @@ export const SurveyListListItem = styled.li`
     box-shadow: 0 1px 3px -1px ${theme.colors.black};
     border-radius: ${theme.border.radius};
     background: ${theme.colors.white};
+
+    ${media.lessThan('medium')`
+      flex-basis: 100%;
+      min-height: 250px;
+    `}
   `}
 `
 
@@ -115,9 +125,10 @@ export const SurveyListTime = styled.time`
 
 export const SurveyListText = styled.p`
   ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xsmall};
+    font-size: ${theme.font.sizes.xxsmall};
     margin: 24px;
     align-self: center;
+    flex-grow: 1;
   `}
 `
 

@@ -18,14 +18,15 @@ const SurveyList = () => {
                 <S.SurveyListTimeYear>2022</S.SurveyListTimeYear>
               </S.SurveyListTime>
               <S.SurveyListText>
-                Qual é seu framework web favorito?
+                Qual é seu framework web favorito?Qual é seu framework web
+                favorito?Qual é seu framework web favorito?Qual é seu framework
+                web favorito?Qual é seu framework web favorito?
               </S.SurveyListText>
             </S.SurveyListContent>
             <S.SurveyListFooter>Ver Resultado</S.SurveyListFooter>
           </S.SurveyListListItem>
         </S.SurveyListList>
       </S.SurveyListWrapper>
-
       <Footer />
     </S.Wrapper>
   )

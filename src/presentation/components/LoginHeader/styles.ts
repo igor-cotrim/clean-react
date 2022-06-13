@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
+import media from 'styled-media-query'
 
-export const LoginHeader = styled.header`
+export const Wrapper = styled.header`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
@@ -11,6 +12,10 @@ export const LoginHeader = styled.header`
     > img {
       margin-top: 40px;
     }
+
+    ${media.lessThan('medium')`
+      border-top-width: 20px;
+    `}
   `}
 `
 

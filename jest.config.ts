@@ -21,7 +21,6 @@ export default {
     '!<rootDir>/src/**/index.ts',
     '!<rootDir>/src/domain/**/*',
     '!<rootDir>/src/presentation/styles/**/*',
-    '!<rootDir>/src/presentation/components/routes/**/*',
     '!<rootDir>/src/presentation/protocols/**/*',
     '!<rootDir>/src/validation/protocols/**/*',
     '!<rootDir>/src/data/protocols/cache/**/*',

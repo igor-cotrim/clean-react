@@ -72,5 +72,10 @@ export const GlobalStyle: GlobalStyleComponent<
       margin-bottom: 0;
       font-weight: bold;
     }
+    p {
+      font-family: ${theme.font.family};
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   `}
 `

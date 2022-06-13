@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components'
 
+type SurveyListIconContainerProps = {
+  readedPolls: boolean
+}
+
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
@@ -107,6 +111,7 @@ export const SurveyListListItem = styled.li`
 
 export const SurveyListContent = styled.div`
   ${({ theme }) => css`
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -122,6 +127,19 @@ export const SurveyListContent = styled.div`
       linear-gradient(to right, #fff, #fff);
     background-position: 0 0, 54 0;
     background-size: 54px 100%, 100% 100%;
+  `}
+`
+
+export const SurveyListIconContainer = styled.div<SurveyListIconContainerProps>`
+  ${({ theme, readedPolls }) => css`
+    position: absolute;
+    display: flex;
+    top: -10px;
+    right: -10px;
+    background: ${readedPolls ? theme.colors.green : theme.colors.red};
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0px 1px 3px -1px ${theme.colors.black};
   `}
 `
 

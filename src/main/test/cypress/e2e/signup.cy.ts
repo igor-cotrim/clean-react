@@ -106,7 +106,7 @@ describe('SignUp', () => {
     FormHelper.testUrl('/signup')
   })
 
-  it('should present save accessToken if valid credentials are provided', () => {
+  it('should present save account if valid credentials are provided', () => {
     Http.mockOk()
 
     simuleteValidSubmit()
@@ -115,7 +115,7 @@ describe('SignUp', () => {
     cy.getByTestId('spinner').should('not.exist')
 
     FormHelper.testUrl('/')
-    FormHelper.testLocalStorageItem('accessToken')
+    FormHelper.testLocalStorageItem('account')
   })
 
   it('should present multiple submits', () => {

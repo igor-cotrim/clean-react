@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 
 import { Validation } from '@/presentation/protocols/validation'
-import { AddAccount, SaveAccessToken } from '@/domain/usecases'
+import { AddAccount, UpdateCurrentAccount } from '@/domain/usecases'
 import {
   Footer,
   FormStatus,
@@ -16,10 +16,14 @@ import * as S from './styles'
 type SignUpProps = {
   validation: Validation
   addAccount: AddAccount
-  saveAccessToken: SaveAccessToken
+  updateCurrentAccount: UpdateCurrentAccount
 }
 
-const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
+const SignUp = ({
+  validation,
+  addAccount,
+  updateCurrentAccount
+}: SignUpProps) => {
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
@@ -89,7 +93,7 @@ const SignUp = ({ validation, addAccount, saveAccessToken }: SignUpProps) => {
         passwordConfirmation: state.passwordConfirmation
       })
 
-      await saveAccessToken.save(account.accessToken)
+      await updateCurrentAccount.save(account)
 
       history.replace('/')
     } catch (error) {

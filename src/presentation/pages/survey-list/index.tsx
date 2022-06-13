@@ -25,6 +25,7 @@ const SurveyList = () => {
             </S.SurveyListContent>
             <S.SurveyListFooter>Ver Resultado</S.SurveyListFooter>
           </S.SurveyListListItem>
+          <S.SurveyListListItem></S.SurveyListListItem>
         </S.SurveyListList>
       </S.SurveyListWrapper>
       <Footer />

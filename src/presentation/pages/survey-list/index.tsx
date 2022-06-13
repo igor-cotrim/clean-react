@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import {
   Footer,
-  Logo,
   IconThumbDown,
-  IconThumbUp
+  IconThumbUp,
+  Header
 } from '@/presentation/components'
 
 import * as S from './styles'
@@ -14,16 +14,7 @@ const SurveyList = () => {
 
   return (
     <S.Wrapper>
-      <S.HeaderContainer>
-        <S.HeaderContent>
-          <Logo />
-          <S.UserInfoContainer>
-            <S.UserInfo>Igor Cotrim</S.UserInfo>
-            <S.Logout>Sair</S.Logout>
-          </S.UserInfoContainer>
-        </S.HeaderContent>
-      </S.HeaderContainer>
-
+      <Header />
       <S.SurveyListWrapper>
         <S.SurveyListTitle>Enquetes</S.SurveyListTitle>
         <S.SurveyListList>

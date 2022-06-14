@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
-import { Authentication, UpdateCurrentAccount } from '@/domain/usecases'
+import { Authentication } from '@/domain/usecases'
 import { Validation } from '@/presentation/protocols/validation'
 import {
   Footer,
@@ -10,20 +10,16 @@ import {
   LoginHeader,
   SubmitButton
 } from '@/presentation/components'
+import { ApiContext } from '@/presentation/contexts'
 
 import * as S from './styles'
 
 type LoginProps = {
   validation: Validation
   authentication: Authentication
-  updateCurrentAccount: UpdateCurrentAccount
 }
 
-const Login = ({
-  validation,
-  authentication,
-  updateCurrentAccount
-}: LoginProps) => {
+const Login = ({ validation, authentication }: LoginProps) => {
   const [state, setState] = useState({
     isLoading: false,
     isFormInvalid: true,
@@ -33,6 +29,7 @@ const Login = ({
     passwordError: '',
     mainError: ''
   })
+  const { setCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -67,7 +64,7 @@ const Login = ({
         password: state.password
       })
 
-      await updateCurrentAccount.save(account)
+      setCurrentAccount(account)
 
       history.replace('/')
     } catch (error) {

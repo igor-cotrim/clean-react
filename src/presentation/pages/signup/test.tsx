@@ -69,8 +69,8 @@ describe('#SignUp', () => {
     const validationError = faker.random.words()
     makeSut({ validationError })
 
-    Helper.testChildCount('error-wrapper', 0)
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(0)
+    expect(screen.getByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('name', validationError)
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
@@ -145,7 +145,7 @@ describe('#SignUp', () => {
     Helper.populateField('password')
     Helper.populateField('passwordConfirmation')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   it('should show spinner on submit', async () => {
@@ -153,7 +153,7 @@ describe('#SignUp', () => {
 
     await simulateValidSubmit()
 
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   it('should call AddAccount with correct values', async () => {

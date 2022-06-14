@@ -69,8 +69,8 @@ describe('#Login', () => {
     Helper.populateField('email')
     Helper.populateField('password')
 
-    Helper.testChildCount('error-wrapper', 0)
-    Helper.testButtonIsDisabled('submit', true)
+    expect(screen.getByTestId('error-wrapper').children).toHaveLength(0)
+    expect(screen.getByTestId('submit')).toBeDisabled()
     Helper.testStatusForField('email', validationError)
     Helper.testStatusForField('password', validationError)
   })
@@ -111,7 +111,7 @@ describe('#Login', () => {
     Helper.populateField('email')
     Helper.populateField('password')
 
-    Helper.testButtonIsDisabled('submit', false)
+    expect(screen.getByTestId('submit')).toBeEnabled()
   })
 
   it('should show spinner on submit', async () => {
@@ -119,7 +119,7 @@ describe('#Login', () => {
 
     await simulateValidSubmit()
 
-    Helper.testElementExists('spinner')
+    expect(screen.queryByTestId('spinner')).toBeInTheDocument()
   })
 
   it('should call Authentication with correct values', async () => {

@@ -9,7 +9,7 @@ const PrivateRoute = (props: RouteProps) => {
   return getCurrentAccount()?.accessToken ? (
     <Route {...props} />
   ) : (
-    <Route component={() => <Redirect to="/login" />} {...props} />
+    <Route {...props} component={() => <Redirect to="/login" />} />
   )
 }
 

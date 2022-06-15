@@ -8,13 +8,15 @@ type SurveyItemProps = {
 }
 
 const SurveyItem = ({ survey }: SurveyItemProps) => {
+  const iconName = survey.didAnswer ? IconName.thumbUp : IconName.thumbDowm
+
   return (
     <S.SurveyItemWrapper>
       <S.SurveyListContent>
-        <Icon className="icon-wrapper" iconName={IconName.thumbUp} />
+        <Icon className="icon-wrapper" iconName={iconName} />
         <S.SurveyListTime>
           <S.SurveyListTimeDay data-testid="day">
-            {survey.date.getDate()}
+            {survey.date.getDate().toString().padStart(2, '0')}
           </S.SurveyListTimeDay>
           <S.SurveyListTimeMonth data-testid="month">
             {survey.date

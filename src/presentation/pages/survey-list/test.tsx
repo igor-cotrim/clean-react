@@ -1,16 +1,18 @@
-import { render, screen } from '@/presentation/utils/test-utils'
+import { render, screen, waitFor } from '@/presentation/utils/test-utils'
 import { SurveyModel } from '@/domain/models'
 import { LoadSurveyList } from '@/domain/usecases'
+import { mockSurveyListModel } from '@/domain/test'
 
 import SurveyList from '.'
 
 class LoadSurveyListSpy implements LoadSurveyList {
   callsCount = 0
+  surveys = mockSurveyListModel()
 
   async loadAll(): Promise<SurveyModel[]> {
     this.callsCount++
 
-    return []
+    return this.surveys
   }
 }
 
@@ -29,16 +31,29 @@ const makeSut = (): SutTypes => {
 }
 
 describe('#SurveyList', () => {
-  it('should present 4 empty itemson  start', () => {
+  it('should present 4 empty itemson  start', async () => {
     makeSut()
     const surveyList = screen.getByTestId('survey-list')
 
-    expect(surveyList.querySelectorAll('li:empty').length).toBe(4)
+    expect(surveyList.querySelectorAll('li:empty')).toHaveLength(4)
+
+    await waitFor(() => surveyList)
   })
 
-  it('should call LoadSurveyList', () => {
+  it('should call LoadSurveyList', async () => {
     const { loadSurveyListSpy } = makeSut()
 
     expect(loadSurveyListSpy.callsCount).toBe(1)
+
+    await waitFor(() => screen.getByRole('heading'))
+  })
+
+  it('should render SurveyItems on success', async () => {
+    makeSut()
+    const surveyList = screen.getByTestId('survey-list')
+
+    await waitFor(() => surveyList)
+
+    expect(surveyList.querySelectorAll('li')).toHaveLength(4)
   })
 })

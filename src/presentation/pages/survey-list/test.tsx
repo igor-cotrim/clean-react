@@ -1,11 +1,31 @@
 import { render, screen } from '@/presentation/utils/test-utils'
+import { SurveyModel } from '@/domain/models'
+import { LoadSurveyList } from '@/domain/usecases'
 
 import SurveyList from '.'
 
-// type SutTypes = {}
+class LoadSurveyListSpy implements LoadSurveyList {
+  callsCount = 0
 
-const makeSut = (): void => {
-  render(<SurveyList />)
+  async loadAll(): Promise<SurveyModel[]> {
+    this.callsCount++
+
+    return []
+  }
+}
+
+type SutTypes = {
+  loadSurveyListSpy: LoadSurveyListSpy
+}
+
+const makeSut = (): SutTypes => {
+  const loadSurveyListSpy = new LoadSurveyListSpy()
+
+  render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
+
+  return {
+    loadSurveyListSpy
+  }
 }
 
 describe('#SurveyList', () => {
@@ -14,5 +34,11 @@ describe('#SurveyList', () => {
     const surveyList = screen.getByTestId('survey-list')
 
     expect(surveyList.querySelectorAll('li:empty').length).toBe(4)
+  })
+
+  it('should call LoadSurveyList', () => {
+    const { loadSurveyListSpy } = makeSut()
+
+    expect(loadSurveyListSpy.callsCount).toBe(1)
   })
 })

@@ -20,9 +20,7 @@ type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
 }
 
-const makeSut = (): SutTypes => {
-  const loadSurveyListSpy = new LoadSurveyListSpy()
-
+const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
   render(<SurveyList loadSurveyList={loadSurveyListSpy} />)
 
   return {
@@ -33,9 +31,11 @@ const makeSut = (): SutTypes => {
 describe('#SurveyList', () => {
   it('should present 4 empty itemson  start', async () => {
     makeSut()
+
     const surveyList = screen.getByTestId('survey-list')
 
     expect(surveyList.querySelectorAll('li:empty')).toHaveLength(4)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
 
     await waitFor(() => surveyList)
   })
@@ -50,10 +50,12 @@ describe('#SurveyList', () => {
 
   it('should render SurveyItems on success', async () => {
     makeSut()
+
     const surveyList = screen.getByTestId('survey-list')
 
     await waitFor(() => surveyList)
 
     expect(surveyList.querySelectorAll('li')).toHaveLength(4)
+    expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
 })

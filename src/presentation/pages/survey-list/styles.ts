@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components'
-import media from 'styled-media-query'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -27,18 +26,5 @@ export const SurveyListTitle = styled.h2`
     font-size: ${theme.font.sizes.xsmall};
     text-transform: uppercase;
     margin-bottom: 24px;
-  `}
-`
-
-export const SurveyListList = styled.ul`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 0;
-  margin: 0;
-
-  ${media.lessThan('medium')`
-    flex-direction: column;
   `}
 `

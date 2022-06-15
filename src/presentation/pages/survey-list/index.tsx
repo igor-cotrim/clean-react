@@ -4,7 +4,7 @@ import { LoadSurveyList } from '@/domain/usecases'
 import { SurveyModel } from '@/domain/models'
 import { Footer, Header } from '@/presentation/components'
 
-import { SurveyItem, SurveyItemEmpty } from './components'
+import { SurveyItemError, SurveyItemList } from './components'
 
 import * as S from './styles'
 
@@ -12,31 +12,34 @@ type SurveyListProps = {
   loadSurveyList: LoadSurveyList
 }
 
+type StateProps = {
+  surveys: SurveyModel[]
+  error: string
+}
+
 const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
-  const [state, setState] = useState({
-    surveys: [] as SurveyModel[]
+  const [state, setState] = useState<StateProps>({
+    surveys: [] as SurveyModel[],
+    error: ''
   })
 
   useEffect(() => {
-    if (loadSurveyList) {
-      loadSurveyList.loadAll().then((surveys) => setState({ surveys }))
-    }
+    loadSurveyList
+      .loadAll()
+      .then((surveys) => setState((prev) => ({ ...prev, surveys })))
+      .catch((error) => setState((prev) => ({ ...prev, error: error.message })))
   }, [loadSurveyList])
 
   return (
     <S.Wrapper>
       <Header />
-      <S.SurveyListWrapper>
+      <S.SurveyListWrapper data-testid="survey-list-wrapper">
         <S.SurveyListTitle>Enquetes</S.SurveyListTitle>
-        <S.SurveyListList data-testid="survey-list">
-          {state.surveys.length ? (
-            state.surveys.map((survey) => (
-              <SurveyItem key={survey.id} survey={survey} />
-            ))
-          ) : (
-            <SurveyItemEmpty />
-          )}
-        </S.SurveyListList>
+        {state.error ? (
+          <SurveyItemError state={state} />
+        ) : (
+          <SurveyItemList state={state} />
+        )}
       </S.SurveyListWrapper>
       <Footer />
     </S.Wrapper>

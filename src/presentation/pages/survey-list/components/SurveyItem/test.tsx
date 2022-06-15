@@ -4,14 +4,18 @@ import { render, screen } from '@/presentation/utils/test-utils'
 
 import SurveyItem from '.'
 
+const makeSut = (survey = mockSurveyModel()): void => {
+  render(<SurveyItem survey={survey} />)
+}
+
 describe('#SurveyItem', () => {
   it('should render with correct values', () => {
-    const survey = mockSurveyModel()
+    const survey = Object.assign(mockSurveyModel(), {
+      didAnswer: true,
+      date: new Date('2022-06-15T00:00:00')
+    })
 
-    survey.didAnswer = true
-    survey.date = new Date('2022-06-15T00:00:00')
-
-    render(<SurveyItem survey={survey} />)
+    makeSut(survey)
 
     expect(screen.getByTestId('icon')).toHaveProperty('src', IconName.thumbUp)
     expect(screen.getByTestId('question')).toHaveTextContent(survey.question)

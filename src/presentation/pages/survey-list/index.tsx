@@ -15,20 +15,31 @@ type SurveyListProps = {
 type StateProps = {
   surveys: SurveyModel[]
   error: string
+  reload: boolean
 }
 
 const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
   const [state, setState] = useState<StateProps>({
     surveys: [] as SurveyModel[],
-    error: ''
+    error: '',
+    reload: false
   })
 
+  const reload = (): void =>
+    setState((prev) => ({ surveys: [], error: '', reload: !prev.reload }))
+
   useEffect(() => {
-    loadSurveyList
-      .loadAll()
-      .then((surveys) => setState((prev) => ({ ...prev, surveys })))
-      .catch((error) => setState((prev) => ({ ...prev, error: error.message })))
-  }, [loadSurveyList])
+    if (loadSurveyList) {
+      loadSurveyList
+        .loadAll()
+        .then((surveys) => setState((prev) => ({ ...prev, surveys })))
+        .catch((error) => {
+          console.log(error)
+
+          setState((prev) => ({ ...prev, error: error.message }))
+        })
+    }
+  }, [loadSurveyList, state.reload])
 
   return (
     <S.Wrapper>
@@ -36,7 +47,7 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
       <S.SurveyListWrapper data-testid="survey-list-wrapper">
         <S.SurveyListTitle>Enquetes</S.SurveyListTitle>
         {state.error ? (
-          <SurveyItemError state={state} />
+          <SurveyItemError reload={reload} error={state.error} />
         ) : (
           <SurveyItemList state={state} />
         )}

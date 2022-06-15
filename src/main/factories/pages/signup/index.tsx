@@ -1,5 +1,6 @@
 import { SignUp } from '@/presentation/pages'
-import { makeRemoteAddAccount } from '@/main/factories/usecases/add-account/remote-add-account-factory'
+import { makeRemoteAddAccount } from '@/main/factories/usecases'
+
 import { makeSignUpValidation } from './signup-validation-factory'
 
 export const makeSignUp = () => {

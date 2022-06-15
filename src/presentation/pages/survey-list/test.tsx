@@ -58,4 +58,35 @@ describe('#SurveyList', () => {
     expect(surveyList.querySelectorAll('li')).toHaveLength(4)
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
+
+  // it('Should render error on UnexpectedError', async () => {
+  //   const loadSurveyListSpy = new LoadSurveyListSpy()
+  //   const error = new UnexpectedError()
+  //   makeSut(loadSurveyListSpy)
+
+  //   jest.spyOn(loadSurveyListSpy, 'loadAll').mockRejectedValueOnce(error)
+
+  //   await waitFor(() => screen.getByRole('heading'))
+
+  //   expect(screen.queryByTestId('survey-list')).not.toBeInTheDocument()
+  //   expect(screen.getByTestId('error')).toHaveTextContent(error.message)
+  // })
+
+  // it('Should call LoadSurveyList on reload', async () => {
+  //   const loadSurveyListSpy = new LoadSurveyListSpy()
+
+  //   jest
+  //     .spyOn(loadSurveyListSpy, 'loadAll')
+  //     .mockRejectedValueOnce(new UnexpectedError())
+
+  //   makeSut(loadSurveyListSpy)
+
+  //   await waitFor(() => screen.getByRole('heading'))
+
+  //   fireEvent.click(screen.getByTestId('reload'))
+
+  //   expect(loadSurveyListSpy.callsCount).toBe(1)
+
+  //   await waitFor(() => screen.getByRole('heading'))
+  // })
 })

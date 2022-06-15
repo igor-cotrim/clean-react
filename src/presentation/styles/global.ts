@@ -44,6 +44,7 @@ export const GlobalStyle: GlobalStyleComponent<
     button {
       border: none;
       font-family: ${theme.font.family};
+      cursor: pointer;
     }
 
     body {

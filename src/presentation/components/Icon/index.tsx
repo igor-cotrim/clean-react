@@ -18,7 +18,7 @@ const Icon = ({ iconName, className }: IconProps) => {
       className={className}
       handleIconType={handleIconType}
     >
-      <img src={iconName} />
+      <img data-testid="icon" src={iconName} />
     </S.SurveyListIconContainer>
   )
 }

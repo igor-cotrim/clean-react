@@ -14,7 +14,9 @@ type SurveyListProps = {
 const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
   useEffect(() => {
     ;(async function () {
-      loadSurveyList.loadAll()
+      if (loadSurveyList) {
+        loadSurveyList.loadAll()
+      }
     })()
   }, [loadSurveyList])
 

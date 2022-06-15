@@ -1,9 +1,23 @@
+import { useEffect } from 'react'
+
+import { LoadSurveyList } from '@/domain/usecases'
 import { Footer, Header } from '@/presentation/components'
+
 import { SurveyItemEmpty } from './components'
 
 import * as S from './styles'
 
-const SurveyList = () => {
+type SurveyListProps = {
+  loadSurveyList: LoadSurveyList
+}
+
+const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
+  useEffect(() => {
+    ;(async function () {
+      loadSurveyList.loadAll()
+    })()
+  }, [loadSurveyList])
+
   return (
     <S.Wrapper>
       <Header />

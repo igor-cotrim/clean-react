@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { LoadSurveyList } from '@/domain/usecases'
+import { AccessDeniedError } from '@/domain/errors'
 import { Footer, Header } from '@/presentation/components'
+import { ApiContext } from '@/presentation/contexts'
 
 import { SurveyItemError, SurveyItemList } from './components'
 
@@ -23,6 +26,8 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
     error: '',
     reload: false
   })
+  const { setCurrentAccount } = useContext(ApiContext)
+  const history = useHistory()
 
   const reload = (): void =>
     setState((prev) => ({ surveys: [], error: '', reload: !prev.reload }))
@@ -33,12 +38,15 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
         .loadAll()
         .then((surveys) => setState((prev) => ({ ...prev, surveys })))
         .catch((error) => {
-          console.log(error)
-
-          setState((prev) => ({ ...prev, error: error.message }))
+          if (error instanceof AccessDeniedError) {
+            setCurrentAccount(undefined)
+            history.replace('/login')
+          } else {
+            setState((prev) => ({ ...prev, error: error.message }))
+          }
         })
     }
-  }, [loadSurveyList, state.reload])
+  }, [loadSurveyList, state.reload, history, setCurrentAccount])
 
   return (
     <S.Wrapper>

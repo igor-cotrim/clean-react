@@ -1,10 +1,11 @@
-import { createMemoryHistory } from 'history'
+import { createMemoryHistory, MemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
 
 import { render, screen, waitFor } from '@/presentation/utils/test-utils'
 import { ApiContext } from '@/presentation/contexts'
 import { LoadSurveyList } from '@/domain/usecases'
 import { mockAccountModel, mockSurveyListModel } from '@/domain/test'
+import { AccountModel } from '@/domain/models'
 
 import SurveyList from '.'
 
@@ -21,24 +22,31 @@ class LoadSurveyListSpy implements LoadSurveyList {
 
 type SutTypes = {
   loadSurveyListSpy: LoadSurveyListSpy
+  history: MemoryHistory
+  setCurrentAccountMock: (account: AccountModel) => void
 }
 
 const makeSut = (loadSurveyListSpy = new LoadSurveyListSpy()): SutTypes => {
+  const history = createMemoryHistory({ initialEntries: ['/'] })
+  const setCurrentAccountMock = jest.fn()
+
   render(
     <ApiContext.Provider
       value={{
-        setCurrentAccount: jest.fn(),
+        setCurrentAccount: setCurrentAccountMock,
         getCurrentAccount: () => mockAccountModel()
       }}
     >
-      <Router history={createMemoryHistory()}>
+      <Router history={history}>
         <SurveyList loadSurveyList={loadSurveyListSpy} />
       </Router>
     </ApiContext.Provider>
   )
 
   return {
-    loadSurveyListSpy
+    loadSurveyListSpy,
+    history,
+    setCurrentAccountMock
   }
 }
 
@@ -72,6 +80,21 @@ describe('#SurveyList', () => {
     expect(surveyList.querySelectorAll('li')).toHaveLength(4)
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
+
+  // it('Should logout on AccessDeniedError', async () => {
+  //   const loadSurveyListSpy = new LoadSurveyListSpy()
+
+  //   const { setCurrentAccountMock, history } = makeSut(loadSurveyListSpy)
+
+  //   jest
+  //     .spyOn(loadSurveyListSpy, 'loadAll')
+  //     .mockRejectedValueOnce(new AccessDeniedError())
+
+  //   await waitFor(() => screen.getByRole('heading'))
+
+  //   expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+  //   expect(history.location.pathname).toBe('/login')
+  // })
 
   // it('Should render error on UnexpectedError', async () => {
   //   const loadSurveyListSpy = new LoadSurveyListSpy()

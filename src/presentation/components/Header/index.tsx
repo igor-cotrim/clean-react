@@ -7,7 +7,7 @@ import { ApiContext } from '@/presentation/contexts'
 import * as S from './styles'
 
 const Header = () => {
-  const { setCurrentAccount } = useContext(ApiContext)
+  const { setCurrentAccount, getCurrentAccount } = useContext(ApiContext)
   const history = useHistory()
 
   const logout = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
@@ -22,7 +22,9 @@ const Header = () => {
       <S.HeaderContent>
         <Logo />
         <S.UserInfoContainer>
-          <S.UserInfo>Igor Cotrim</S.UserInfo>
+          <S.UserInfo data-testid="username">
+            {getCurrentAccount().name}
+          </S.UserInfo>
           <S.Logout data-testid="logout" onClick={logout}>
             Sair
           </S.Logout>

@@ -1,4 +1,4 @@
-import { SurveyModel } from '@/domain/models'
+import { LoadSurveyList } from '@/domain/usecases'
 import {
   SurveyItem,
   SurveyItemEmpty
@@ -7,7 +7,7 @@ import {
 import * as S from './styles'
 
 type StateProps = {
-  surveys: SurveyModel[]
+  surveys: LoadSurveyList.Model[]
   error: string
 }
 

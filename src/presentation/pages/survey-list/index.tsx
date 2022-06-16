@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 
 import { LoadSurveyList } from '@/domain/usecases'
-import { SurveyModel } from '@/domain/models'
 import { Footer, Header } from '@/presentation/components'
 
 import { SurveyItemError, SurveyItemList } from './components'
@@ -13,14 +12,14 @@ type SurveyListProps = {
 }
 
 type StateProps = {
-  surveys: SurveyModel[]
+  surveys: LoadSurveyList.Model[]
   error: string
   reload: boolean
 }
 
 const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
   const [state, setState] = useState<StateProps>({
-    surveys: [] as SurveyModel[],
+    surveys: [] as LoadSurveyList.Model[],
     error: '',
     reload: false
   })

@@ -1,10 +1,10 @@
-import { SurveyModel } from '@/domain/models'
+import { LoadSurveyList } from '@/domain/usecases'
 import { Icon, IconName } from '@/presentation/components'
 
 import * as S from './styles'
 
 type SurveyItemProps = {
-  survey: SurveyModel
+  survey: LoadSurveyList.Model
 }
 
 const SurveyItem = ({ survey }: SurveyItemProps) => {

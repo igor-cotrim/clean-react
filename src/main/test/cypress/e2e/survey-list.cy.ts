@@ -15,11 +15,20 @@ describe('#SurveyList', () => {
 
   it('should present error on UnexpectedError', () => {
     Http.mockUnexpectedError()
+    
     cy.visit('http://localhost:3000')
 
     cy.getByTestId('error').should(
       'contain.text', 
       'Algo de errado aconteceu. Tente novamente em breve.'
     )
+  })
+
+  it('should logout on AccessDeniedError', () => {
+    Http.mockAccessDeniedError()
+
+    cy.visit('http://localhost:3000')
+
+    Helper.testUrl('/login')
   })
 })

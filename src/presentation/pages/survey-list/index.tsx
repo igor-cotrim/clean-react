@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import { LoadSurveyList } from '@/domain/usecases'
-import { AccessDeniedError } from '@/domain/errors'
 import { Footer, Header } from '@/presentation/components'
-import { ApiContext } from '@/presentation/contexts'
+import { useErrorHandler } from '@/presentation/hooks'
 
 import { SurveyItemError, SurveyItemList } from './components'
 
@@ -26,8 +24,9 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
     error: '',
     reload: false
   })
-  const { setCurrentAccount } = useContext(ApiContext)
-  const history = useHistory()
+  const handleError = useErrorHandler((error: Error) => {
+    setState((prev) => ({ ...prev, error: error.message }))
+  })
 
   const reload = (): void =>
     setState((prev) => ({ surveys: [], error: '', reload: !prev.reload }))
@@ -36,15 +35,9 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
     loadSurveyList
       .loadAll()
       .then((surveys) => setState((prev) => ({ ...prev, surveys })))
-      .catch((error) => {
-        if (error instanceof AccessDeniedError) {
-          setCurrentAccount(undefined)
-          history.replace('/login')
-        } else {
-          setState((prev) => ({ ...prev, error: error.message }))
-        }
-      })
-  }, [loadSurveyList, state.reload, history, setCurrentAccount])
+      .catch(handleError)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.reload])
 
   return (
     <S.Wrapper>

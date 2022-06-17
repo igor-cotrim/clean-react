@@ -15,7 +15,7 @@ describe('#SurveyList', () => {
 
   it('should present error on UnexpectedError', () => {
     Http.mockUnexpectedError()
-    
+
     cy.visit('http://localhost:3000')
 
     cy.getByTestId('error').should(
@@ -30,5 +30,15 @@ describe('#SurveyList', () => {
     cy.visit('http://localhost:3000')
 
     Helper.testUrl('/login')
+  })
+
+  it('should present correct username', () => {
+    const { name } = Helper.getLocalStorageItem('account')
+    
+    Http.mockUnexpectedError()
+
+    cy.visit('http://localhost:3000')
+
+    cy.getByTestId('username').should('contain.text', name)
   })
 })

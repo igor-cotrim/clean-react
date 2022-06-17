@@ -2,9 +2,20 @@
 
 import { faker } from '@faker-js/faker'
 
-import * as FormHelper from '../support/form-helpers'
-import * as Helper from '../support/helpers'
-import * as Http from '../support/signup-mocks'
+import * as FormHelper from '../utils/form-helpers'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
+
+const path = /api\/signup/
+
+const mockEmailInUseError = (): void => Http.mockForbiddenError(path, 'POST')
+
+const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
+
+const mockSuccess = (): void => {
+  Http.mockOk(/api\/surveys/, 'GET', 'survey-list')
+  Http.mockOk(path, 'POST', 'account', 'signUpRequest')
+}
 
 const populateFields = (): void => {
   const password = faker.random.alphaNumeric(5)
@@ -54,6 +65,16 @@ describe('SignUp', () => {
     cy.getByTestId('error-wrapper').should('not.have.descendants')
   })
 
+  it('Should reset state on page load', () => {
+    cy.getByTestId('email').focus().type(faker.internet.email())
+    FormHelper.testInputStatus('email')
+
+    cy.getByTestId('login-link').click()
+    cy.getByTestId('signup-link').click()
+
+    FormHelper.testInputStatus('email', 'Campo obrigatório')
+  })
+
   it('should present valid state if form is valid', () => {
     const password = faker.random.alphaNumeric(5)
 
@@ -74,53 +95,44 @@ describe('SignUp', () => {
   })
 
   it('should present EmailInUseError on 403', () => {
-    Http.mockEmailInUseError()
-
+    mockEmailInUseError()
     simuleteValidSubmit()
 
     FormHelper.testMainError('Esse e-mail já está em uso')
-
     Helper.testUrl('/signup')
   })
 
   it('should present unexpectedError on default error cases', () => {
-    Http.mockUnexpectedError()
-
+    mockUnexpectedError()
     simuleteValidSubmit()
 
     FormHelper.testMainError(
       'Algo de errado aconteceu. Tente novamente em breve.'
     )
-
     Helper.testUrl('/signup')
   })
 
   it('should present save account if valid credentials are provided', () => {
-    Http.mockOk()
-
+    mockSuccess()
     simuleteValidSubmit()
-
-    cy.getByTestId('main-error').should('not.exist')
-    cy.getByTestId('spinner').should('not.exist')
 
     Helper.testUrl('/')
     Helper.testLocalStorageItem('account')
   })
 
   it('should present multiple submits', () => {
-    Http.mockOk()
-
+    mockSuccess()
     populateFields()
-    cy.getByTestId('submit').dblclick()
 
-    Helper.testHttpCallsCount(1)
+    cy.getByTestId('submit').dblclick()
+    cy.wait('@signUpRequest')
+    cy.get('@signUpRequest.all').should('have.length', 1)
   })
 
   it('should not call submit if form is invalid', () => {
-    Http.mockOk()
+    mockSuccess()
 
     cy.getByTestId('email').focus().type(faker.internet.email()).type('{enter}')
-
-    Helper.testHttpCallsCount(0)
+    cy.get('@signUpRequest.all').should('have.length', 0)
   })
 })

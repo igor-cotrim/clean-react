@@ -1,50 +1,52 @@
 /// <reference types="cypress" />
 
-import { faker } from '@faker-js/faker'
+import * as Helper from '../utils/helpers'
+import * as Http from '../utils/http-mocks'
 
-import * as Helper from '../support/helpers'
-import * as Http from '../support/survey-list-mocks'
+const path = /api\/surveys/
+
+const mockUnexpectedError = (): void => Http.mockServerError(path, 'GET')
+
+const mockAccessDeniedError = (): void => Http.mockForbiddenError(path, 'GET')
 
 describe('#SurveyList', () => {
   beforeEach(() => {
-    Helper.setLocalStorageItem('account', { 
-      accessToken: faker.datatype.uuid(), 
-      name: faker.name.findName() 
+    cy.fixture('account').then(account => {
+      Helper.setLocalStorageItem('account', account)
     })
   })
 
   it('should present error on UnexpectedError', () => {
-    Http.mockUnexpectedError()
-    cy.visit('http://localhost:3000')
+    mockUnexpectedError()
 
+    cy.visit('http://localhost:3000')
     cy.getByTestId('error').should(
-      'contain.text', 
+      'contain.text',
       'Algo de errado aconteceu. Tente novamente em breve.'
     )
   })
 
   it('should logout on AccessDeniedError', () => {
-    Http.mockAccessDeniedError()
-    cy.visit('http://localhost:3000')
+    mockAccessDeniedError()
 
+    cy.visit('http://localhost:3000')
     Helper.testUrl('/login')
   })
 
   it('should present correct username', () => {
-    Http.mockUnexpectedError()
-    cy.visit('http://localhost:3000')
-
     const { name } = Helper.getLocalStorageItem('account')
 
+    mockUnexpectedError()
+
+    cy.visit('http://localhost:3000')
     cy.getByTestId('username').should('contain.text', name)
   })
 
   it('should logout on logout link click', () => {
-    Http.mockUnexpectedError()
+    mockUnexpectedError()
+
     cy.visit('http://localhost:3000')
-
     cy.getByTestId('logout').click()
-
     Helper.testUrl('/login')
   })
 })

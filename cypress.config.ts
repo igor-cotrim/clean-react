@@ -4,7 +4,7 @@ const cypressTypeScriptPreprocessor = require('./src/main/test/cypress/cy-ts-pre
 
 export default defineConfig({
   e2e: {
-    fixturesFolder: false,
+    fixturesFolder: 'src/main/test/cypress/fixtures',
     supportFile: 'src/main/test/cypress/support/index.js',
     video: false,
     chromeWebSecurity: false,

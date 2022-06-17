@@ -9,9 +9,7 @@ import * as Http from '../utils/http-mocks'
 const path = /api\/signup/
 
 const mockEmailInUseError = (): void => Http.mockForbiddenError(path, 'POST')
-
 const mockUnexpectedError = (): void => Http.mockServerError(path, 'POST')
-
 const mockSuccess = (): void => {
   Http.mockOk(/api\/surveys/, 'GET', 'survey-list')
   Http.mockOk(path, 'POST', 'account', 'signUpRequest')

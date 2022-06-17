@@ -33,19 +33,17 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
     setState((prev) => ({ surveys: [], error: '', reload: !prev.reload }))
 
   useEffect(() => {
-    if (loadSurveyList) {
-      loadSurveyList
-        .loadAll()
-        .then((surveys) => setState((prev) => ({ ...prev, surveys })))
-        .catch((error) => {
-          if (error instanceof AccessDeniedError) {
-            setCurrentAccount(undefined)
-            history.replace('/login')
-          } else {
-            setState((prev) => ({ ...prev, error: error.message }))
-          }
-        })
-    }
+    loadSurveyList
+      .loadAll()
+      .then((surveys) => setState((prev) => ({ ...prev, surveys })))
+      .catch((error) => {
+        if (error instanceof AccessDeniedError) {
+          setCurrentAccount(undefined)
+          history.replace('/login')
+        } else {
+          setState((prev) => ({ ...prev, error: error.message }))
+        }
+      })
   }, [loadSurveyList, state.reload, history, setCurrentAccount])
 
   return (

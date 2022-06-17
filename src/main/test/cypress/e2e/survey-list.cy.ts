@@ -26,6 +26,21 @@ describe('#SurveyList', () => {
     )
   })
 
+  it('should reload on button click', () => {
+    mockUnexpectedError()
+
+    cy.visit('http://localhost:3000')
+    cy.getByTestId('error').should(
+      'contain.text',
+      'Algo de errado aconteceu. Tente novamente em breve.'
+    )
+
+    mockSuccess()
+
+    cy.getByTestId('reload').click()
+    cy.get('li:not(:empty)').should('have.length', 2)
+  })
+
   it('should logout on AccessDeniedError', () => {
     mockAccessDeniedError()
 

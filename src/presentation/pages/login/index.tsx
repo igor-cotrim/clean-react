@@ -39,12 +39,12 @@ const Login = ({ validation, authentication }: LoginProps) => {
     const emailError = validation?.validate('email', formData)
     const passwordError = validation?.validate('password', formData)
 
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       emailError,
       passwordError,
       isFormInvalid: !!emailError || !!passwordError
-    })
+    }))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.email, state.password, state.isFormInvalid, validation])

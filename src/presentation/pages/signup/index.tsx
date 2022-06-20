@@ -48,8 +48,8 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
       formData
     )
 
-    setState({
-      ...state,
+    setState((prev) => ({
+      ...prev,
       nameError,
       emailError,
       passwordError,
@@ -59,7 +59,7 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
         !!emailError ||
         !!passwordError ||
         !!passwordConfirmationError
-    })
+    }))
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

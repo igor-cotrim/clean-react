@@ -62,6 +62,11 @@ export const GlobalStyle: GlobalStyleComponent<
       font-family: ${theme.font.family};
     }
 
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
     h1,
     h2,
     h3,

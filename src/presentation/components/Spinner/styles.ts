@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components'
 
-export const Spinner = styled.div`
-  ${({ theme }) => css`
+type SpinnerProps = {
+  SpinnerColor?: '#880e4f' | '#fff'
+}
+
+export const Spinner = styled.div<SpinnerProps>`
+  ${({ SpinnerColor = '#880e4f' }) => css`
     display: inline-block;
     position: relative;
     width: 80px;
@@ -13,7 +17,7 @@ export const Spinner = styled.div`
       width: 13px;
       height: 13px;
       border-radius: 50%;
-      background: ${theme.colors.primary};
+      background: ${SpinnerColor};
       animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
       &:nth-child(1) {

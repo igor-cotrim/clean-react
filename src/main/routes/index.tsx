@@ -9,6 +9,7 @@ import { PrivateRoute } from '@/presentation/components'
 
 //Routes
 import { makeLogin, makeSignUp, makeSurveyList } from '@/main/factories/pages'
+import { SurveyResult } from '@/presentation/pages'
 
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
           <Route path="/login" exact component={makeLogin} />
           <Route path="/signup" exact component={makeSignUp} />
           <PrivateRoute path="/" exact component={makeSurveyList} />
+          <PrivateRoute path="/surveys" exact component={SurveyResult} />
         </Switch>
       </BrowserRouter>
     </ApiContext.Provider>

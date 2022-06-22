@@ -1,7 +1,11 @@
 import * as S from './styles'
 
-const Spinner = () => (
-  <S.Spinner data-testid="spinner">
+type SpinnerProps = {
+  colors?: '#880e4f' | '#fff'
+}
+
+const Spinner = ({ colors = '#880e4f' }: SpinnerProps) => (
+  <S.Spinner SpinnerColor={colors} data-testid="spinner">
     <div />
     <div />
     <div />

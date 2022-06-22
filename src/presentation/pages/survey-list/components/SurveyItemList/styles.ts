@@ -6,8 +6,6 @@ export const SurveyItemList = styled.ul`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 0;
-  margin: 0;
 
   ${media.lessThan('medium')`
     flex-direction: column;

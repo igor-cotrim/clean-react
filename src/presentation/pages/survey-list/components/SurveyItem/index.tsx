@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { LoadSurveyList } from '@/domain/usecases'
 import { Calendar, Icon, IconName } from '@/presentation/components'
 
@@ -19,7 +21,11 @@ const SurveyItem = ({ survey }: SurveyItemProps) => {
           {survey.question}
         </S.SurveyListText>
       </S.SurveyListContent>
-      <S.SurveyListFooter>Ver Resultado</S.SurveyListFooter>
+      <S.SurveyListFooter>
+        <Link data-testid="link" to={`/surveys/${survey.id}`}>
+          Ver Resultado
+        </Link>
+      </S.SurveyListFooter>
     </S.SurveyItemWrapper>
   )
 }

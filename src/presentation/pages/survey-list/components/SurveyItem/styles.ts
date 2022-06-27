@@ -44,6 +44,11 @@ export const SurveyListContent = styled.div`
       top: -10px;
       right: -10px;
     }
+
+    .calendar {
+      align-self: center;
+      margin-left: 24px;
+    }
   `}
 `
 
@@ -64,49 +69,11 @@ export const SurveyListFooter = styled.footer`
   `}
 `
 
-export const SurveyListTime = styled.time`
-  ${({ theme }) => css`
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    align-self: center;
-    align-items: center;
-    justify-content: center;
-    background: ${theme.colors.primaryLight};
-    color: ${theme.colors.white};
-    border-radius: ${theme.border.radius};
-    margin-left: 24px;
-    width: 60px;
-    height: 100px;
-  `}
-`
-
 export const SurveyListText = styled.p`
   ${({ theme }) => css`
     font-size: ${theme.font.sizes.xxsmall};
     margin: 24px;
     align-self: center;
     flex-grow: 1;
-  `}
-`
-
-export const SurveyListTimeDay = styled.span`
-  ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xlarge};
-    font-weight: ${theme.font.weight.bold};
-  `}
-`
-
-export const SurveyListTimeMonth = styled.span`
-  ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xxxsmall};
-    text-transform: lowercase;
-    margin: 0 0 5px;
-  `}
-`
-
-export const SurveyListTimeYear = styled.span`
-  ${({ theme }) => css`
-    font-size: ${theme.font.sizes.xxsmall};
   `}
 `

@@ -8,4 +8,10 @@ describe('#Private Routes', () => {
 
     Helper.testUrl('/login')
   })
+
+  it('should logout if survey-list has no token', () => {
+    cy.visit('http://localhost:3000/surveys/any_id')
+
+    Helper.testUrl('/login')
+  })
 })

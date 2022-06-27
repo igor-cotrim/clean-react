@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { LoadSurveyResult } from '@/domain/usecases'
 import {
@@ -11,12 +11,20 @@ import {
 
 import * as S from './styles'
 
-const SurveyResult = () => {
+type SurveyResultProps = {
+  loadSurveyResult: LoadSurveyResult
+}
+
+const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
   const [state] = useState({
     isLoading: false,
     error: '',
     surveyResult: null as LoadSurveyResult.Model
   })
+
+  useEffect(() => {
+    loadSurveyResult.load().then().catch()
+  }, [loadSurveyResult])
 
   return (
     <S.Wrapper>

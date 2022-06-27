@@ -1,13 +1,28 @@
-import { Calendar, Footer, Header, Loading } from '@/presentation/components'
+import { useState } from 'react'
+
+import { LoadSurveyResult } from '@/domain/usecases'
+import {
+  Calendar,
+  Error,
+  Footer,
+  Header,
+  Loading
+} from '@/presentation/components'
 
 import * as S from './styles'
 
 const SurveyResult = () => {
+  const [state] = useState({
+    isLoading: false,
+    error: '',
+    surveyResult: null as LoadSurveyResult.Model
+  })
+
   return (
     <S.Wrapper>
       <Header />
-      <S.SurveyResultContent>
-        {true && (
+      <S.SurveyResultContent data-testid="survey-result">
+        {state.surveyResult && (
           <>
             <S.SurveyTitleContainer>
               <Calendar date={new Date()} className="calendar" />
@@ -35,7 +50,8 @@ const SurveyResult = () => {
             <S.SurveyResultButton>Voltar</S.SurveyResultButton>
           </>
         )}
-        {false && <Loading />}
+        {state.isLoading && <Loading />}
+        {state.error && <Error error={state.error} reload={() => ({})} />}
       </S.SurveyResultContent>
       <Footer />
     </S.Wrapper>

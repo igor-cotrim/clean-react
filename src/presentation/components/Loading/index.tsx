@@ -3,7 +3,7 @@ import { Spinner } from '@/presentation/components'
 import * as S from './styles'
 
 const Loading = () => (
-  <S.LoadingWrapper>
+  <S.LoadingWrapper data-testid="loading">
     <S.Loading>
       <S.LoadingText>Aguarde...</S.LoadingText>
       <Spinner colors="#fff" />

@@ -1,11 +1,12 @@
 import { createMemoryHistory, MemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-
 import { render, screen, waitFor } from '@/presentation/utils/test-utils'
-import { ApiContext } from '@/presentation/contexts'
+
 import { LoadSurveyList } from '@/domain/usecases'
 import { mockAccountModel, mockSurveyListModel } from '@/domain/test'
 import { AccountModel } from '@/domain/models'
+import { AccessDeniedError } from '@/domain/errors'
+import { ApiContext } from '@/presentation/contexts'
 
 import SurveyList from '.'
 
@@ -81,20 +82,20 @@ describe('#SurveyList', () => {
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
   })
 
-  // it('Should logout on AccessDeniedError', async () => {
-  //   const loadSurveyListSpy = new LoadSurveyListSpy()
+  it('Should logout on AccessDeniedError', async () => {
+    const loadSurveyListSpy = new LoadSurveyListSpy()
 
-  //   const { setCurrentAccountMock, history } = makeSut(loadSurveyListSpy)
+    jest
+      .spyOn(loadSurveyListSpy, 'loadAll')
+      .mockRejectedValueOnce(new AccessDeniedError())
 
-  //   jest
-  //     .spyOn(loadSurveyListSpy, 'loadAll')
-  //     .mockRejectedValueOnce(new AccessDeniedError())
+    const { setCurrentAccountMock, history } = makeSut(loadSurveyListSpy)
 
-  //   await waitFor(() => screen.getByRole('heading'))
+    await waitFor(() => screen.getByRole('heading'))
 
-  //   expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
-  //   expect(history.location.pathname).toBe('/login')
-  // })
+    expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+    expect(history.location.pathname).toBe('/login')
+  })
 
   // it('Should render error on UnexpectedError', async () => {
   //   const loadSurveyListSpy = new LoadSurveyListSpy()

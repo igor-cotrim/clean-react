@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-export const SurveyItemErrorWrapper = styled.div`
+export const ErrorWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;

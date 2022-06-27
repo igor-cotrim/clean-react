@@ -123,8 +123,8 @@ describe('SignUp', () => {
     populateFields()
 
     cy.getByTestId('submit').dblclick()
-    cy.wait('@signUpRequest')
-    cy.get('@signUpRequest.all').should('have.length', 1)
+    cy.wait('@request')
+    cy.get('@request.all').should('have.length', 1)
   })
 
   it('should not call submit if form is invalid', () => {

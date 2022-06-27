@@ -1,19 +1,19 @@
 import * as S from './styles'
 
-type SurveyItemErrorProps = {
+type ErrorProps = {
   error: string
   reload: () => void
 }
 
-const SurveyItemError = ({ error, reload }: SurveyItemErrorProps) => {
+const Error = ({ error, reload }: ErrorProps) => {
   return (
-    <S.SurveyItemErrorWrapper>
+    <S.ErrorWrapper>
       <S.ErrorMessage data-testid="error">{error}</S.ErrorMessage>
       <S.ErrorButton onClick={reload} data-testid="reload">
         Tentar novamente
       </S.ErrorButton>
-    </S.SurveyItemErrorWrapper>
+    </S.ErrorWrapper>
   )
 }
 
-export default SurveyItemError
+export default Error

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
 import { LoadSurveyList } from '@/domain/usecases'
-import { Footer, Header } from '@/presentation/components'
+import { Error, Footer, Header } from '@/presentation/components'
 import { useErrorHandler } from '@/presentation/hooks'
 
-import { SurveyItemError, SurveyItemList } from './components'
+import { SurveyItemList } from './components'
 
 import * as S from './styles'
 
@@ -24,12 +24,14 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
     error: '',
     reload: false
   })
+
   const handleError = useErrorHandler((error: Error) => {
     setState((prev) => ({ ...prev, error: error.message }))
   })
 
-  const reload = (): void =>
+  const reload = (): void => {
     setState((prev) => ({ surveys: [], error: '', reload: !prev.reload }))
+  }
 
   useEffect(() => {
     loadSurveyList
@@ -45,7 +47,7 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
       <S.SurveyListWrapper data-testid="survey-list-wrapper">
         <S.SurveyListTitle>Enquetes</S.SurveyListTitle>
         {state.error ? (
-          <SurveyItemError reload={reload} error={state.error} />
+          <Error reload={reload} error={state.error} />
         ) : (
           <SurveyItemList state={state} />
         )}

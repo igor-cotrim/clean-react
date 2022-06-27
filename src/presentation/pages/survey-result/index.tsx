@@ -20,12 +20,22 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
   const [state, setState] = useState({
     isLoading: false,
     error: '',
-    surveyResult: null as LoadSurveyResult.Model
+    surveyResult: null as LoadSurveyResult.Model,
+    reload: false
   })
 
   const handleError = useErrorHandler((error: Error) => {
     setState((prev) => ({ ...prev, surveyResult: null, error: error.message }))
   })
+
+  const reload = (): void => {
+    setState((prev) => ({
+      isLoading: false,
+      surveyResult: null,
+      error: '',
+      reload: !prev.reload
+    }))
+  }
 
   useEffect(() => {
     loadSurveyResult
@@ -33,7 +43,7 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
       .then((surveyResult) => setState((prev) => ({ ...prev, surveyResult })))
       .catch(handleError)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadSurveyResult])
+  }, [state.reload])
 
   return (
     <S.Wrapper>
@@ -75,7 +85,7 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
           </>
         )}
         {state.isLoading && <Loading />}
-        {state.error && <Error error={state.error} reload={() => ({})} />}
+        {state.error && <Error error={state.error} reload={reload} />}
       </S.SurveyResultContent>
       <Footer />
     </S.Wrapper>

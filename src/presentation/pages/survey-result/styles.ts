@@ -20,10 +20,22 @@ export const SurveyResultContent = styled.div`
   padding: 40px;
 `
 
+export const SurveyTitleContainer = styled.hgroup`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .calendar {
+    width: 80px;
+    margin-right: 16px;
+  }
+`
+
 export const SurveyResultTitle = styled.h2`
   ${({ theme }) => css`
     color: ${theme.colors.primaryDark};
-    font-size: ${theme.font.sizes.xsmall};
+    font-size: ${theme.font.sizes.small};
     font-weight: ${theme.font.weight.bold};
   `}
 `

@@ -1,4 +1,4 @@
-import { Footer, Header, Loading } from '@/presentation/components'
+import { Calendar, Footer, Header, Loading } from '@/presentation/components'
 
 import * as S from './styles'
 
@@ -7,9 +7,12 @@ const SurveyResult = () => {
     <S.Wrapper>
       <Header />
       <S.SurveyResultContent>
-        <S.SurveyResultTitle>
-          Qual é seu framework web favorito?
-        </S.SurveyResultTitle>
+        <S.SurveyTitleContainer>
+          <Calendar date={new Date()} className="calendar" />
+          <S.SurveyResultTitle>
+            Qual é seu framework web favorito?
+          </S.SurveyResultTitle>
+        </S.SurveyTitleContainer>
         <S.SurveyResultList>
           <S.SurveyResultLi>
             <S.SurveyResultImg src="http://fordevs.herokuapp.com/static/img/logo-react.png" />

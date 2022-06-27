@@ -1,11 +1,7 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css } from 'styled-components'
 import media from 'styled-media-query'
 
-const shimmer = keyframes`
-  100% {
-    transform: translateX(100%);
-  }
-`
+import { shimmer } from '@/presentation/styles'
 
 export const SurveyItemEmpty = styled.li`
   ${({ theme }) => css`

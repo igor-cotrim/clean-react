@@ -2,10 +2,17 @@ import {
   createGlobalStyle,
   css,
   DefaultTheme,
-  GlobalStyleComponent
+  GlobalStyleComponent,
+  keyframes
 } from 'styled-components'
 
 type GlobalStylesProps = any
+
+export const shimmer = keyframes`
+  100% {
+    transform: translateX(100%);
+  }
+`
 
 export const GlobalStyle: GlobalStyleComponent<
   GlobalStylesProps,

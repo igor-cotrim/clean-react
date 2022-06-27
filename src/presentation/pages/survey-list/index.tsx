@@ -49,7 +49,7 @@ const SurveyList = ({ loadSurveyList }: SurveyListProps) => {
         {state.error ? (
           <Error reload={reload} error={state.error} />
         ) : (
-          <SurveyItemList state={state} />
+          <SurveyItemList surveys={state.surveys} />
         )}
       </S.SurveyListWrapper>
       <Footer />

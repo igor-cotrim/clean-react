@@ -6,21 +6,14 @@ import {
 
 import * as S from './styles'
 
-type StateProps = {
-  surveys: LoadSurveyList.Model[]
-  error: string
-}
-
 type SurveyItemListProps = {
-  state: StateProps
+  surveys: LoadSurveyList.Model[]
 }
 
-const SurveyItemList = ({ state }: SurveyItemListProps) => (
+const SurveyItemList = ({ surveys }: SurveyItemListProps) => (
   <S.SurveyItemList data-testid="survey-list">
-    {state.surveys.length ? (
-      state.surveys.map((survey) => (
-        <SurveyItem key={survey.id} survey={survey} />
-      ))
+    {surveys.length ? (
+      surveys.map((survey) => <SurveyItem key={survey.id} survey={survey} />)
     ) : (
       <SurveyItemEmpty />
     )}

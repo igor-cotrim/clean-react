@@ -193,6 +193,7 @@ export const SurveyResultLi = styled.li`
 export const SurveyResultImg = styled.img`
   width: 50px;
   height: 50px;
+  margin-right: 16px;
 
   ${media.lessThan('medium')`
     width: 40px;
@@ -203,7 +204,7 @@ export const SurveyResultImg = styled.img`
 export const SurveyResultAnswer = styled.span`
   ${({ theme }) => css`
     flex-grow: 1;
-    margin: 0 16px;
+    margin-right: 16px;
     font-size: ${theme.font.sizes.small};
 
     ${media.lessThan('medium')`

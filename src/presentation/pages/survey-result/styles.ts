@@ -185,7 +185,7 @@ export const SurveyResultLi = styled.li`
     margin-top: 16px;
 
     &.active {
-      border: 2px solid ${theme.colors.primaryLight};
+      box-shadow: 0 0 3px 2px ${theme.colors.primaryLight};
     }
   `}
 `

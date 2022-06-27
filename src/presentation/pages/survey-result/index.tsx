@@ -7,7 +7,7 @@ const SurveyResult = () => {
     <S.Wrapper>
       <Header />
       <S.SurveyResultContent>
-        {false && (
+        {true && (
           <>
             <S.SurveyTitleContainer>
               <Calendar date={new Date()} className="calendar" />

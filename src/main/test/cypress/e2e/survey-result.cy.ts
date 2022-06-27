@@ -43,8 +43,8 @@ describe('#SurveyResult', () => {
 
   it('should logout on AccessDeniedError', () => {
     mockAccessDeniedError()
-
     cy.visit('http://localhost:3000/surveys/any_id')
+
     Helper.testUrl('/login')
   })
 
@@ -66,5 +66,14 @@ describe('#SurveyResult', () => {
       assert.equal(li.find('[data-testid="percent"]').text(), '30%')
       assert.notExists(li.find('[data-testid="image"]'))
     }) 
+  })
+
+  it('should go to SurveyList on back button click ', () => {
+    cy.visit('http://localhost:3000')
+    mockSuccess()
+    cy.visit('http://localhost:3000/surveys/any_id')
+
+    cy.getByTestId('back-button').click()
+    Helper.testUrl('/')
   })
 })

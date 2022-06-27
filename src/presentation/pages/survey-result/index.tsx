@@ -16,14 +16,17 @@ type SurveyResultProps = {
 }
 
 const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
-  const [state] = useState({
+  const [state, setState] = useState({
     isLoading: false,
     error: '',
     surveyResult: null as LoadSurveyResult.Model
   })
 
   useEffect(() => {
-    loadSurveyResult.load().then().catch()
+    loadSurveyResult
+      .load()
+      .then((surveyResult) => setState((prev) => ({ ...prev, surveyResult })))
+      .catch()
   }, [loadSurveyResult])
 
   return (
@@ -33,27 +36,34 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
         {state.surveyResult && (
           <>
             <S.SurveyTitleContainer>
-              <Calendar date={new Date()} className="calendar" />
-              <S.SurveyResultTitle>
-                Qual é seu framework web favorito?
+              <Calendar date={state.surveyResult.date} className="calendar" />
+              <S.SurveyResultTitle data-testid="question">
+                {state.surveyResult.question}
               </S.SurveyResultTitle>
             </S.SurveyTitleContainer>
-            <S.SurveyResultList>
-              <S.SurveyResultLi>
-                <S.SurveyResultImg src="http://fordevs.herokuapp.com/static/img/logo-react.png" />
-                <S.SurveyResultAnswer>ReactJS</S.SurveyResultAnswer>
-                <S.SurveyResultPercent>50%</S.SurveyResultPercent>
-              </S.SurveyResultLi>
-              <S.SurveyResultLi>
-                <S.SurveyResultImg src="http://fordevs.herokuapp.com/static/img/logo-react.png" />
-                <S.SurveyResultAnswer>ReactJS</S.SurveyResultAnswer>
-                <S.SurveyResultPercent>50%</S.SurveyResultPercent>
-              </S.SurveyResultLi>
-              <S.SurveyResultLi className="active">
-                <S.SurveyResultImg src="http://fordevs.herokuapp.com/static/img/logo-react.png" />
-                <S.SurveyResultAnswer>ReactJS</S.SurveyResultAnswer>
-                <S.SurveyResultPercent>50%</S.SurveyResultPercent>
-              </S.SurveyResultLi>
+            <S.SurveyResultList data-testid="answers">
+              {state.surveyResult.answers.map((answer) => (
+                <S.SurveyResultLi
+                  data-testid="answer-wrapper"
+                  key={answer.answer}
+                  className={answer.isCurrentAccountAnswer ? 'active' : ''}
+                >
+                  {answer.image && (
+                    <S.SurveyResultImg
+                      data-testid="image"
+                      className="active"
+                      src={answer.image}
+                      alt={answer.answer}
+                    />
+                  )}
+                  <S.SurveyResultAnswer data-testid="answer">
+                    {answer.answer}
+                  </S.SurveyResultAnswer>
+                  <S.SurveyResultPercent data-testid="percent">
+                    {answer.percent}%
+                  </S.SurveyResultPercent>
+                </S.SurveyResultLi>
+              ))}
             </S.SurveyResultList>
             <S.SurveyResultButton>Voltar</S.SurveyResultButton>
           </>

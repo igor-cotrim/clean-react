@@ -55,13 +55,18 @@ export const SurveyListContent = styled.div`
 export const SurveyListFooter = styled.footer`
   ${({ theme }) => css`
     background: ${theme.colors.primary};
-    color: ${theme.colors.white};
-    line-height: 40px;
-    text-transform: lowercase;
-    text-align: center;
     cursor: pointer;
     border-radius: 0 0 ${theme.border.radius} ${theme.border.radius};
     transition: background ${theme.transition.default};
+
+    a {
+      display: block;
+      line-height: 40px;
+      text-transform: lowercase;
+      text-align: center;
+      color: ${theme.colors.white};
+      text-decoration: none;
+    }
 
     &:hover {
       background: ${theme.colors.primaryDark};

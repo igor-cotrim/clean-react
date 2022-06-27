@@ -1,22 +1,15 @@
 import { render, screen, waitFor } from '@/presentation/utils/test-utils'
 
-import {
-  LoadSurveyResultSpy,
-  mockAccountModel,
-  mockSurveyResultModel
-} from '@/domain/test'
+import { LoadSurveyResultSpy, mockAccountModel } from '@/domain/test'
 import { SurveyResult } from '@/presentation/pages'
 import { ApiContext } from '@/presentation/contexts'
+// import { UnexpectedError } from '@/domain/errors'
 
 type SutTypes = {
   loadSurveyResultSpy: LoadSurveyResultSpy
 }
 
-const makeSut = (surveyResult = mockSurveyResultModel()): SutTypes => {
-  const loadSurveyResultSpy = new LoadSurveyResultSpy()
-
-  loadSurveyResultSpy.surveyResult = surveyResult
-
+const makeSut = (loadSurveyResultSpy = new LoadSurveyResultSpy()): SutTypes => {
   render(
     <ApiContext.Provider
       value={{
@@ -55,6 +48,7 @@ describe('#SurveyResult', () => {
   })
 
   // it('should present SurveyResult data on success', async () => {
+  // const loadSurveyResultSpy = new LoadSurveyResultSpy()
   //   const surveyResult = Object.assign(mockSurveyResultModel(), {
   //     date: new Date('2022-06-15T00:00:00')
   //   })
@@ -63,7 +57,9 @@ describe('#SurveyResult', () => {
   //   const answers = screen.queryAllByTestId('answer')
   //   const percents = screen.queryAllByTestId('percent')
 
-  //   makeSut(surveyResult)
+  // loadSurveyResultSpy.surveyResult = surveyResult
+
+  //   makeSut(loadSurveyResultSpy)
 
   //   await waitFor(() => screen.getByTestId('survey-result'))
 
@@ -83,5 +79,20 @@ describe('#SurveyResult', () => {
   //   expect(answers[1]).toHaveTextContent(surveyResult.answers[1].answer)
   //   expect(percents[0]).toHaveTextContent(`${surveyResult.answers[0].percent}%`)
   //   expect(percents[1]).toHaveTextContent(`${surveyResult.answers[1].percent}%`)
+  // })
+
+  // it('Should render error on UnexpectedError', async () => {
+  //   const loadSurveyResultSpy = new LoadSurveyResultSpy()
+  //   const error = new UnexpectedError()
+
+  //   jest.spyOn(loadSurveyResultSpy, 'load').mockRejectedValueOnce(error)
+
+  //   makeSut(loadSurveyResultSpy)
+
+  //   await waitFor(() => screen.getByTestId('survey-result'))
+
+  //   expect(screen.queryByTestId('question')).not.toBeInTheDocument()
+  //   expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+  //   expect(screen.getByTestId('error')).toHaveTextContent(error.message)
   // })
 })

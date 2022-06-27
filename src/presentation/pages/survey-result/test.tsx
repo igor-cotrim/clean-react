@@ -1,10 +1,16 @@
-import { render, screen } from '@/presentation/utils/test-utils'
+import { render, screen, waitFor } from '@/presentation/utils/test-utils'
 
-import { mockAccountModel } from '@/domain/test'
+import { LoadSurveyResultSpy, mockAccountModel } from '@/domain/test'
 import { SurveyResult } from '@/presentation/pages'
 import { ApiContext } from '@/presentation/contexts'
 
-const makeSut = (): void => {
+type SutTypes = {
+  loadSurveyResultSpy: LoadSurveyResultSpy
+}
+
+const makeSut = (): SutTypes => {
+  const loadSurveyResultSpy = new LoadSurveyResultSpy()
+
   render(
     <ApiContext.Provider
       value={{
@@ -12,13 +18,17 @@ const makeSut = (): void => {
         getCurrentAccount: () => mockAccountModel()
       }}
     >
-      <SurveyResult />
+      <SurveyResult loadSurveyResult={loadSurveyResultSpy} />
     </ApiContext.Provider>
   )
+
+  return {
+    loadSurveyResultSpy
+  }
 }
 
 describe('#SurveyResult', () => {
-  it('should present correct initial state', () => {
+  it('should present correct initial state', async () => {
     makeSut()
 
     const surveyResult = screen.getByTestId('survey-result')
@@ -26,5 +36,15 @@ describe('#SurveyResult', () => {
     expect(surveyResult.childElementCount).toBe(0)
     expect(screen.queryByTestId('error')).not.toBeInTheDocument()
     expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+
+    await waitFor(() => surveyResult)
+  })
+
+  it('should call LoadSurveyResult', async () => {
+    const { loadSurveyResultSpy } = makeSut()
+
+    await waitFor(() => screen.getByTestId('survey-result'))
+
+    expect(loadSurveyResultSpy.callsCount).toBe(1)
   })
 })

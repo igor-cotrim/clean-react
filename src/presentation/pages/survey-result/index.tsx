@@ -11,6 +11,7 @@ import {
 import { useErrorHandler } from '@/presentation/hooks'
 
 import * as S from './styles'
+import { useHistory } from 'react-router-dom'
 
 type SurveyResultProps = {
   loadSurveyResult: LoadSurveyResult
@@ -23,6 +24,7 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
     surveyResult: null as LoadSurveyResult.Model,
     reload: false
   })
+  const { goBack } = useHistory()
 
   const handleError = useErrorHandler((error: Error) => {
     setState((prev) => ({ ...prev, surveyResult: null, error: error.message }))
@@ -81,7 +83,9 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
                 </S.SurveyResultLi>
               ))}
             </S.SurveyResultList>
-            <S.SurveyResultButton>Voltar</S.SurveyResultButton>
+            <S.SurveyResultButton data-testid="back-button" onClick={goBack}>
+              Voltar
+            </S.SurveyResultButton>
           </>
         )}
         {state.isLoading && <Loading />}

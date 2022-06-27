@@ -1,4 +1,4 @@
-import { Footer, Header, Spinner } from '@/presentation/components'
+import { Footer, Header, Loading } from '@/presentation/components'
 
 import * as S from './styles'
 
@@ -28,12 +28,7 @@ const SurveyResult = () => {
           </S.SurveyResultLi>
         </S.SurveyResultList>
         <S.SurveyResultButton>Voltar</S.SurveyResultButton>
-        <S.LoadingWrapper>
-          <S.Loading>
-            <S.LoadingText>Aguarde...</S.LoadingText>
-            <Spinner colors="#fff" />
-          </S.Loading>
-        </S.LoadingWrapper>
+        {false && <Loading />}
       </S.SurveyResultContent>
       <Footer />
     </S.Wrapper>

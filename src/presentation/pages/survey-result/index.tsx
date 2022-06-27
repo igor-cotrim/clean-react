@@ -8,6 +8,7 @@ import {
   Header,
   Loading
 } from '@/presentation/components'
+import { useErrorHandler } from '@/presentation/hooks'
 
 import * as S from './styles'
 
@@ -22,11 +23,16 @@ const SurveyResult = ({ loadSurveyResult }: SurveyResultProps) => {
     surveyResult: null as LoadSurveyResult.Model
   })
 
+  const handleError = useErrorHandler((error: Error) => {
+    setState((prev) => ({ ...prev, surveyResult: null, error: error.message }))
+  })
+
   useEffect(() => {
     loadSurveyResult
       .load()
       .then((surveyResult) => setState((prev) => ({ ...prev, surveyResult })))
-      .catch()
+      .catch(handleError)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadSurveyResult])
 
   return (

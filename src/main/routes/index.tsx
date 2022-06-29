@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import {
   getCurrentAccountAdapter,
   setCurrentAccountAdapter
-} from '@/main/adapters/current-account-adapter'
+} from '@/main/adapters'
 import { ApiContext } from '@/presentation/contexts'
 import { PrivateRoute } from '@/presentation/components'
 

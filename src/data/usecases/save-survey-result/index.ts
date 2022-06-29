@@ -1,5 +1,6 @@
 import { SaveSurveyResult } from '@/domain/usecases'
-import { HttpClient } from '@/data/protocols/http'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
+import { HttpClient, HttpStatusCode } from '@/data/protocols/http'
 import { RemoteSurveyResultModel } from '@/data/models'
 
 export class RemoteSaveSurveyResult implements SaveSurveyResult {
@@ -9,12 +10,23 @@ export class RemoteSaveSurveyResult implements SaveSurveyResult {
   ) {}
 
   async save(params: SaveSurveyResult.Params): Promise<SaveSurveyResult.Model> {
-    await this.httpClient.request({
+    const httpResponse = await this.httpClient.request({
       url: this.url,
       method: 'put',
       body: params
     })
-    return null
+    const remoteSurveyResult = httpResponse.body
+
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok:
+        return Object.assign({}, remoteSurveyResult, {
+          date: new Date(remoteSurveyResult.date)
+        })
+      case HttpStatusCode.forbidden:
+        throw new AccessDeniedError()
+      default:
+        throw new UnexpectedError()
+    }
   }
 }
 

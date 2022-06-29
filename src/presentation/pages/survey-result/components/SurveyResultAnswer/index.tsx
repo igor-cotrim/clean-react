@@ -1,15 +1,9 @@
+import { SurveyResultAnswerModel } from '@/domain/models'
+
 import * as S from './styles'
 
-type AnswerProps = {
-  image?: string
-  answer: string
-  count: number
-  percent: number
-  isCurrentAccountAnswer: boolean
-}
-
 type SurveyResultAnswerProps = {
-  answer: AnswerProps
+  answer: SurveyResultAnswerModel
 }
 
 const SurveyResultAnswer = ({ answer }: SurveyResultAnswerProps) => (

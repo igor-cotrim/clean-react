@@ -1,10 +1,16 @@
 import { createMemoryHistory, MemoryHistory } from 'history'
 import { Router } from 'react-router-dom'
-import { render, screen, waitFor } from '@/presentation/utils/test-utils'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from '@/presentation/utils/test-utils'
 
 import {
   LoadSurveyResultSpy,
   mockAccountModel,
+  mockSurveyResultModel,
   SaveSurveyResultSpy
 } from '@/domain/test'
 import { AccountModel } from '@/domain/models'
@@ -219,4 +225,64 @@ describe('#SurveyResult', () => {
   //   expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
   //   expect(screen.getByTestId('error')).toHaveTextContent(error.message)
   // })
+
+  // it('Should logout on AccessDeniedError', async () => {
+  //   const saveSurveyResultSpy = new SaveSurveyResultSpy()
+
+  //   jest
+  //     .spyOn(saveSurveyResultSpy, 'save')
+  //     .mockRejectedValueOnce(new AccessDeniedError())
+
+  //   const { setCurrentAccountMock, history } = makeSut({ saveSurveyResultSpy })
+
+  //   await waitFor(() => screen.getByTestId('survey-result'))
+
+  //   const answersWrapper = screen.queryAllByTestId('answer-wrapper')
+
+  //   fireEvent.click(answersWrapper[1])
+
+  //   await waitFor(() => screen.getByTestId('survey-result'))
+
+  //   expect(setCurrentAccountMock).toHaveBeenCalledWith(undefined)
+  //   expect(history.location.pathname).toBe('/login')
+  // })
+
+  it('should present SurveyResult data on SaveSurveyResult success', async () => {
+    const saveSurveyResultSpy = new SaveSurveyResultSpy()
+    const surveyResult = Object.assign(mockSurveyResultModel(), {
+      date: new Date('2022-06-29T00:00:00')
+    })
+    const answersWrapper = screen.queryAllByTestId('answer-wrapper')
+    const images = screen.queryAllByTestId('image')
+    const answers = screen.queryAllByTestId('answer')
+    const percents = screen.queryAllByTestId('percent')
+
+    saveSurveyResultSpy.surveyResult = surveyResult
+
+    makeSut({ saveSurveyResultSpy })
+
+    await waitFor(() => screen.getByTestId('survey-result'))
+
+    fireEvent.click(answersWrapper[1])
+
+    await waitFor(() => screen.getByTestId('survey-result'))
+
+    expect(screen.getByTestId('day')).toHaveTextContent('29')
+    expect(screen.getByTestId('month')).toHaveTextContent('jun')
+    expect(screen.getByTestId('year')).toHaveTextContent('2022')
+    expect(screen.getByTestId('question')).toHaveTextContent(
+      surveyResult.question
+    )
+    expect(screen.getByTestId('answers').childElementCount).toBe(2)
+    expect(answersWrapper[0]).toHaveClass('active')
+    expect(answersWrapper[1]).not.toHaveClass('active')
+    expect(images[0]).toHaveAttribute('src', surveyResult.answers[0].image)
+    expect(images[0]).toHaveAttribute('alt', surveyResult.answers[0].answer)
+    expect(images[1]).toBeFalsy()
+    expect(answers[0]).toHaveTextContent(surveyResult.answers[0].answer)
+    expect(answers[1]).toHaveTextContent(surveyResult.answers[1].answer)
+    expect(percents[0]).toHaveTextContent(`${surveyResult.answers[0].percent}%`)
+    expect(percents[1]).toHaveTextContent(`${surveyResult.answers[1].percent}%`)
+    expect(screen.queryByTestId('loading')).not.toBeInTheDocument()
+  })
 })

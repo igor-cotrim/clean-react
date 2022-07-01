@@ -8,7 +8,7 @@ import {
   screen,
   waitFor
 } from '@/presentation/utils/test-utils'
-import { AddAccountSpy, Helper, ValidationStub } from '@/presentation/test'
+import { AddAccountSpy, Helper, ValidationStub } from '@/presentation/mocks'
 import { ApiContext } from '@/presentation/contexts'
 import { EmailInUseError } from '@/domain/errors'
 import { AddAccount } from '@/domain/usecases'

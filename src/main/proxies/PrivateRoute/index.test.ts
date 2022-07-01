@@ -1,11 +1,8 @@
-import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
 
 import { mockAccountModel } from '@/domain/mocks'
-import { render } from '@/presentation/utils/test-utils'
-import { ApiContext } from '@/presentation/contexts'
-
-import PrivateRoute from '.'
+import { PrivateRoute } from '@/main/proxies'
+import { renderWithHistory } from '@/presentation/mocks'
 
 type SutTypes = {
   history: MemoryHistory
@@ -14,13 +11,7 @@ type SutTypes = {
 const makeSut = (account = mockAccountModel()): SutTypes => {
   const history = createMemoryHistory({ initialEntries: ['/'] })
 
-  render(
-    <ApiContext.Provider value={{ getCurrentAccount: () => account }}>
-      <Router history={history}>
-        <PrivateRoute />
-      </Router>
-    </ApiContext.Provider>
-  )
+  renderWithHistory({ history, Page: PrivateRoute, account })
 
   return {
     history

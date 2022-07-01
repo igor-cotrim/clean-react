@@ -1,28 +1,27 @@
+import { RecoilRoot } from 'recoil'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import {
   getCurrentAccountAdapter,
   setCurrentAccountAdapter
 } from '@/main/adapters'
-import { ApiContext } from '@/presentation/contexts'
-import { PrivateRoute } from '@/presentation/components'
-
-//Routes
+import { PrivateRoute } from '@/main/proxies'
 import {
   makeLogin,
   makeSignUp,
   makeSurveyList,
   makeSurveyResult
 } from '@/main/factories/pages'
+import { currentAccountState } from '@/presentation/components'
 
 const Router = () => {
+  const state = {
+    setCurrentAccount: setCurrentAccountAdapter,
+    getCurrentAccount: getCurrentAccountAdapter
+  }
+
   return (
-    <ApiContext.Provider
-      value={{
-        setCurrentAccount: setCurrentAccountAdapter,
-        getCurrentAccount: getCurrentAccountAdapter
-      }}
-    >
+    <RecoilRoot initializeState={({ set }) => set(currentAccountState, state)}>
       <BrowserRouter>
         <Switch>
           <Route path="/login" exact component={makeLogin} />
@@ -31,7 +30,7 @@ const Router = () => {
           <PrivateRoute path="/surveys/:id" component={makeSurveyResult} />
         </Switch>
       </BrowserRouter>
-    </ApiContext.Provider>
+    </RecoilRoot>
   )
 }
 

@@ -8,8 +8,8 @@ import {
   screen,
   waitFor
 } from '@/presentation/utils/test-utils'
-import { Helper } from '@/presentation/test'
-import { AuthenticationSpy, ValidationStub } from '@/presentation/test'
+import { Helper } from '@/presentation/mocks'
+import { AuthenticationSpy, ValidationStub } from '@/presentation/mocks'
 import { Login } from '@/presentation/pages'
 import { ApiContext } from '@/presentation/contexts'
 import { InvalidCredentialsError } from '@/domain/errors'

@@ -6,8 +6,7 @@ import {
   MinLengthValidation,
   CompareFieldsValidation
 } from '@/validation/validators'
-
-import { ValidationBuilder as sut } from '.'
+import { ValidationBuilder as sut } from '@/main/builders'
 
 describe('#ValidationBuilder', () => {
   it('should return RequiredFieldValidation', () => {

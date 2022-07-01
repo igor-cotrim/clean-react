@@ -1,9 +1,9 @@
+import { ValidationComposite } from '@/main/composites'
 import {
   CompareFieldsValidation,
   EmailValidation,
   MinLengthValidation,
-  RequiredFieldValidation,
-  ValidationComposite
+  RequiredFieldValidation
 } from '@/validation/validators'
 
 import { makeSignUpValidation } from './signup-validation-factory'

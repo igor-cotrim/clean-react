@@ -1,8 +1,8 @@
+import { ValidationComposite } from '@/main/composites'
 import {
   EmailValidation,
   MinLengthValidation,
-  RequiredFieldValidation,
-  ValidationComposite
+  RequiredFieldValidation
 } from '@/validation/validators'
 
 import { makeLoginValidation } from './login-validation-factory'

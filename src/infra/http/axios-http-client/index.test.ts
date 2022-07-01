@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 import { mockHttpRequest } from '@/data/mocks'
-import { mockAxios, mockHttpResponse } from '@/infra/test'
+import { mockAxios, mockHttpResponse } from '@/infra/mocks'
 import { AxiosHttpClient } from '@/infra/http'
 
 jest.mock('axios')

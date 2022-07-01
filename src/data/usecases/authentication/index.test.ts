@@ -1,8 +1,11 @@
 import { faker } from '@faker-js/faker'
 
-import { mockAccountModel, mockAuthentication } from '@/domain/test'
+import {
+  mockAuthenticationModel,
+  mockAuthenticationParams
+} from '@/domain/mocks'
 import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors'
-import { HttpClientSpy } from '@/data/test'
+import { HttpClientSpy } from '@/data/mocks'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { RemoteAuthentication } from '@/data/usecases'
 
@@ -25,7 +28,7 @@ describe('#RemoteAuthentication', () => {
   it('should call HttpClient with correct values', async () => {
     const url = faker.internet.url()
     const { sut, httpClientSpy } = makeSut(url)
-    const authenticationParams = mockAuthentication()
+    const authenticationParams = mockAuthenticationParams()
 
     await sut.auth(authenticationParams)
 
@@ -39,7 +42,7 @@ describe('#RemoteAuthentication', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.unauthorized
     }
-    const promise = sut.auth(mockAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
 
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
@@ -49,7 +52,7 @@ describe('#RemoteAuthentication', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.badRequest
     }
-    const promise = sut.auth(mockAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -59,7 +62,7 @@ describe('#RemoteAuthentication', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.notFound
     }
-    const promise = sut.auth(mockAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
@@ -69,19 +72,19 @@ describe('#RemoteAuthentication', () => {
     httpClientSpy.response = {
       statusCode: HttpStatusCode.serverError
     }
-    const promise = sut.auth(mockAuthentication())
+    const promise = sut.auth(mockAuthenticationParams())
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
   it('should return an Autentication.Model if HttpClient returns 200', async () => {
     const { sut, httpClientSpy } = makeSut()
-    const httpResult = mockAccountModel()
+    const httpResult = mockAuthenticationModel()
     httpClientSpy.response = {
       statusCode: HttpStatusCode.ok,
       body: httpResult
     }
-    const account = await sut.auth(mockAuthentication())
+    const account = await sut.auth(mockAuthenticationParams())
 
     expect(account).toEqual(httpResult)
   })

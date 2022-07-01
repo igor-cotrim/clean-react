@@ -6,7 +6,7 @@ import {
   LoadSurveyResultSpy,
   mockAccountModel,
   SaveSurveyResultSpy
-} from '@/domain/test'
+} from '@/domain/mocks'
 import { AccountModel } from '@/domain/models'
 import { AccessDeniedError } from '@/domain/errors'
 import { SurveyResult } from '@/presentation/pages'

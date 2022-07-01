@@ -3,7 +3,7 @@ import { Router } from 'react-router-dom'
 import { render, screen, waitFor } from '@/presentation/utils/test-utils'
 
 import { LoadSurveyList } from '@/domain/usecases'
-import { mockAccountModel, mockSurveyListModel } from '@/domain/test'
+import { mockAccountModel, mockSurveyListModel } from '@/domain/mocks'
 import { AccountModel } from '@/domain/models'
 import { AccessDeniedError } from '@/domain/errors'
 import { ApiContext } from '@/presentation/contexts'

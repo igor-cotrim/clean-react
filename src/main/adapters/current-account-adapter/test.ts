@@ -1,4 +1,4 @@
-import { mockAccountModel } from '@/domain/test'
+import { mockAccountModel } from '@/domain/mocks'
 import { LocalStorageAdapter } from '@/infra/cache/local-storage-adapter'
 import {
   setCurrentAccountAdapter,

@@ -4,7 +4,7 @@ import { createMemoryHistory, MemoryHistory } from 'history'
 import { fireEvent, render, screen } from '@/presentation/utils/test-utils'
 import { ApiContext } from '@/presentation/contexts'
 import { AccountModel } from '@/domain/models'
-import { mockAccountModel } from '@/domain/test'
+import { mockAccountModel } from '@/domain/mocks'
 
 import Header from '.'
 

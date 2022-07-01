@@ -1,7 +1,7 @@
 import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
 
-import { mockAccountModel } from '@/domain/test'
+import { mockAccountModel } from '@/domain/mocks'
 import { render } from '@/presentation/utils/test-utils'
 import { ApiContext } from '@/presentation/contexts'
 

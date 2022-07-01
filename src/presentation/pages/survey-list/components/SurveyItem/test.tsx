@@ -2,7 +2,7 @@ import { Router } from 'react-router-dom'
 import { createMemoryHistory, MemoryHistory } from 'history'
 import { fireEvent, render, screen } from '@/presentation/utils/test-utils'
 
-import { mockSurveyModel } from '@/domain/test'
+import { mockSurveyModel } from '@/domain/mocks'
 import { IconName } from '@/presentation/components'
 
 import SurveyItem from '.'

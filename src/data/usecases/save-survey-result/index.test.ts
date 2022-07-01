@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 
-import { mockSaveSurveyResultParams } from '@/domain/test'
+import { mockSaveSurveyResultParams } from '@/domain/mocks'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols/http'
-import { HttpClientSpy, mockRemoteSurveyResultModel } from '@/data/test'
+import { HttpClientSpy, mockRemoteSurveyResultModel } from '@/data/mocks'
 import { RemoteSaveSurveyResult } from '@/data/usecases'
 
 type SutTypes = {

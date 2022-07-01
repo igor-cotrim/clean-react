@@ -1,8 +1,18 @@
+import { faker } from '@faker-js/faker'
+
 import { Authentication } from '@/domain/usecases'
 import { mockAccountModel } from '@/domain/mocks'
 
+export const mockAuthenticationParams = (): Authentication.Params => ({
+  email: faker.internet.email(),
+  password: faker.internet.password()
+})
+
+export const mockAuthenticationModel = (): Authentication.Model =>
+  mockAccountModel()
+
 export class AuthenticationSpy implements Authentication {
-  account = mockAccountModel()
+  account = mockAuthenticationModel()
   params: Authentication.Params
   callsCount = 0
 

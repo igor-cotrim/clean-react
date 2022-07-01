@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker'
 import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { HttpStatusCode } from '@/data/protocols/http'
 import { RemoteLoadSurveyList } from '@/data/usecases'
-import { HttpClientSpy, mockRemoteSurveyListModel } from '@/data/test'
+import { HttpClientSpy, mockRemoteSurveyListModel } from '@/data/mocks'
 
 type SutTypes = {
   sut: RemoteLoadSurveyList

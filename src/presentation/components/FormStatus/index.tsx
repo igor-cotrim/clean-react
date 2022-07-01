@@ -1,4 +1,4 @@
-import Spinner from '../Spinner'
+import { Spinner } from '@/presentation/components'
 
 import * as S from './styles'
 

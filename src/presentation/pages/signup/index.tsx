@@ -1,16 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { useHistory, Link } from 'react-router-dom'
 
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 import { AddAccount } from '@/domain/usecases'
 import {
+  currentAccountState,
   Footer,
-  FormStatus,
-  Input,
-  LoginHeader,
-  SubmitButton
+  LoginHeader
 } from '@/presentation/components'
-import { ApiContext } from '@/presentation/contexts'
+
+import { FormStatus, Input, signUpState, SubmitButton } from './components'
 
 import * as S from './styles'
 
@@ -20,56 +21,40 @@ type SignUpProps = {
 }
 
 const SignUp = ({ validation, addAccount }: SignUpProps) => {
-  const [state, setState] = useState({
-    isLoading: false,
-    isFormInvalid: true,
-    name: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
-    nameError: '',
-    emailError: '',
-    passwordError: '',
-    passwordConfirmationError: '',
-    mainError: ''
-  })
-  const { setCurrentAccount } = useContext(ApiContext)
+  const resetSignUpState = useResetRecoilState(signUpState)
+  const { setCurrentAccount } = useRecoilValue(currentAccountState)
+  const [state, setState] = useRecoilState(signUpState)
   const history = useHistory()
 
-  useEffect(() => {
+  const validate = (field: string): void => {
     const { name, email, password, passwordConfirmation } = state
     const formData = { name, email, password, passwordConfirmation }
-
-    const nameError = validation?.validate('name', formData)
-    const emailError = validation?.validate('email', formData)
-    const passwordError = validation?.validate('password', formData)
-    const passwordConfirmationError = validation?.validate(
-      'passwordConfirmation',
-      formData
-    )
-
-    setState((prev) => ({
-      ...prev,
-      nameError,
-      emailError,
-      passwordError,
-      passwordConfirmationError,
-      isFormInvalid:
-        !!nameError ||
-        !!emailError ||
-        !!passwordError ||
-        !!passwordConfirmationError
+    setState((old) => ({
+      ...old,
+      [`${field}Error`]: validation.validate(field, formData)
     }))
+    setState((old) => ({
+      ...old,
+      isFormInvalid:
+        !!old.nameError ||
+        !!old.emailError ||
+        !!old.passwordError ||
+        !!old.passwordConfirmationError
+    }))
+  }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    state.name,
-    state.email,
-    state.password,
-    state.passwordConfirmation,
-    state.isFormInvalid,
-    validation
-  ])
+  useEffect(() => resetSignUpState(), [])
+
+  useEffect(() => validate('name'), [state.name])
+
+  useEffect(() => validate('email'), [state.email])
+
+  useEffect(() => validate('password'), [state.password])
+
+  useEffect(
+    () => validate('passwordConfirmation'),
+    [state.passwordConfirmation]
+  )
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -107,34 +92,10 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
       <LoginHeader />
       <S.SignUpForm data-testid="form" onSubmit={handleSubmit}>
         <S.Subtitle>Criar Conta</S.Subtitle>
+        <Input type="text" name="name" placeholder="Digite seu nome" />
+        <Input type="email" name="email" placeholder="Digite seu e-mail" />
+        <Input type="password" name="password" placeholder="Digite sua senha" />
         <Input
-          state={state}
-          setState={setState}
-          error={state.nameError}
-          type="text"
-          name="name"
-          placeholder="Digite seu nome"
-        />
-        <Input
-          state={state}
-          setState={setState}
-          error={state.emailError}
-          type="email"
-          name="email"
-          placeholder="Digite seu e-mail"
-        />
-        <Input
-          state={state}
-          setState={setState}
-          error={state.passwordError}
-          type="password"
-          name="password"
-          placeholder="Digite sua senha"
-        />
-        <Input
-          state={state}
-          setState={setState}
-          error={state.passwordConfirmationError}
           type="password"
           name="passwordConfirmation"
           placeholder="Repita sua senha"
@@ -147,7 +108,7 @@ const SignUp = ({ validation, addAccount }: SignUpProps) => {
             Voltar Para Login
           </Link>
         </S.LinkToLogin>
-        <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
+        <FormStatus />
       </S.SignUpForm>
       <Footer />
     </S.Wrapper>

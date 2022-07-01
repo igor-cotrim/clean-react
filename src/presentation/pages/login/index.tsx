@@ -1,16 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil'
 import { Link, useHistory } from 'react-router-dom'
 
 import { Authentication } from '@/domain/usecases'
-import { Validation } from '@/presentation/protocols/validation'
+import { Validation } from '@/presentation/protocols'
 import {
+  currentAccountState,
   Footer,
-  FormStatus,
-  Input,
-  LoginHeader,
-  SubmitButton
+  LoginHeader
 } from '@/presentation/components'
-import { ApiContext } from '@/presentation/contexts'
+
+import { FormStatus, Input, loginState, SubmitButton } from './components'
 
 import * as S from './styles'
 
@@ -20,34 +21,31 @@ type LoginProps = {
 }
 
 const Login = ({ validation, authentication }: LoginProps) => {
-  const [state, setState] = useState({
-    isLoading: false,
-    isFormInvalid: true,
-    email: '',
-    password: '',
-    emailError: '',
-    passwordError: '',
-    mainError: ''
-  })
-  const { setCurrentAccount } = useContext(ApiContext)
+  const resetLoginState = useResetRecoilState(loginState)
+  const { setCurrentAccount } = useRecoilValue(currentAccountState)
+  const [state, setState] = useRecoilState(loginState)
   const history = useHistory()
 
-  useEffect(() => {
+  const validate = (field: string): void => {
     const { email, password } = state
     const formData = { email, password }
 
-    const emailError = validation?.validate('email', formData)
-    const passwordError = validation?.validate('password', formData)
+    setState((prev) => ({
+      ...prev,
+      [`${field}Error`]: validation.validate(field, formData)
+    }))
 
     setState((prev) => ({
       ...prev,
-      emailError,
-      passwordError,
-      isFormInvalid: !!emailError || !!passwordError
+      isFormInvalid: !!prev.emailError || !!prev.passwordError
     }))
+  }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.email, state.password, state.isFormInvalid, validation])
+  useEffect(() => resetLoginState(), [])
+
+  useEffect(() => validate('email'), [state.email])
+
+  useEffect(() => validate('password'), [state.password])
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -58,7 +56,9 @@ const Login = ({ validation, authentication }: LoginProps) => {
       if (state.isLoading || state.isFormInvalid) {
         return
       }
+
       setState((prev) => ({ ...prev, isLoading: true }))
+
       const account = await authentication.auth({
         email: state.email,
         password: state.password
@@ -81,22 +81,8 @@ const Login = ({ validation, authentication }: LoginProps) => {
       <LoginHeader />
       <S.LoginForm data-testid="form" onSubmit={handleSubmit}>
         <S.Subtitle>Login</S.Subtitle>
-        <Input
-          state={state}
-          setState={setState}
-          error={state.emailError}
-          type="email"
-          name="email"
-          placeholder="Digite seu e-mail"
-        />
-        <Input
-          state={state}
-          setState={setState}
-          error={state.passwordError}
-          type="password"
-          name="password"
-          placeholder="Digite sua senha"
-        />
+        <Input type="email" name="email" placeholder="Digite seu e-mail" />
+        <Input type="password" name="password" placeholder="Digite sua senha" />
         <SubmitButton disabled={state.isFormInvalid} type="submit">
           Entrar
         </SubmitButton>
@@ -105,7 +91,7 @@ const Login = ({ validation, authentication }: LoginProps) => {
             Criar conta
           </Link>
         </S.LinkToSignup>
-        <FormStatus isLoading={state.isLoading} mainError={state.mainError} />
+        <FormStatus />
       </S.LoginForm>
       <Footer />
     </S.Wrapper>

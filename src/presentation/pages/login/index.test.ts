@@ -1,19 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
+import { fireEvent, screen, waitFor } from '@/presentation/utils/test-utils'
 
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor
-} from '@/presentation/utils/test-utils'
-import { Helper } from '@/presentation/mocks'
-import { AuthenticationSpy, ValidationStub } from '@/presentation/mocks'
-import { Login } from '@/presentation/pages'
-import { ApiContext } from '@/presentation/contexts'
+import { AuthenticationSpy } from '@/domain/mocks'
 import { InvalidCredentialsError } from '@/domain/errors'
 import { Authentication } from '@/domain/usecases'
+import { Helper, renderWithHistory, ValidationStub } from '@/presentation/mocks'
+import { Login } from '@/presentation/pages'
 
 type SutTypes = {
   authenticationSpy: AuthenticationSpy
@@ -29,17 +22,14 @@ const history = createMemoryHistory({ initialEntries: ['/login'] })
 const makeSut = (params?: SutParams): SutTypes => {
   const validationStub = new ValidationStub()
   const authenticationSpy = new AuthenticationSpy()
-  const setCurrentAccountMock = jest.fn()
 
   validationStub.errorMessage = params?.validationError
 
-  render(
-    <ApiContext.Provider value={{ setCurrentAccount: setCurrentAccountMock }}>
-      <Router history={history}>
-        <Login validation={validationStub} authentication={authenticationSpy} />
-      </Router>
-    </ApiContext.Provider>
-  )
+  const { setCurrentAccountMock } = renderWithHistory({
+    history,
+    Page: () =>
+      Login({ validation: validationStub, authentication: authenticationSpy })
+  })
 
   return {
     authenticationSpy,

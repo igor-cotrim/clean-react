@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from 'recoil'
 
 import { LoadSurveyResult, SaveSurveyResult } from '@/domain/usecases'
 import { Error, Footer, Header, Loading } from '@/presentation/components'
-import {
-  SurveyResultContext,
-  SurveyResultData
-} from '@/presentation/pages/survey-result/components'
 import { useErrorHandler } from '@/presentation/hooks'
+import {
+  onSurveyAnswerState,
+  SurveyResultData,
+  surveyResultState
+} from '@/presentation/pages/survey-result/components'
 
 import * as S from './styles'
 
@@ -19,12 +22,9 @@ const SurveyResult = ({
   loadSurveyResult,
   saveSurveyResult
 }: SurveyResultProps) => {
-  const [state, setState] = useState({
-    isLoading: false,
-    error: '',
-    surveyResult: null as LoadSurveyResult.Model,
-    reload: false
-  })
+  const resetSurveyResultState = useResetRecoilState(surveyResultState)
+  const [state, setState] = useRecoilState(surveyResultState)
+  const setOnAnswer = useSetRecoilState(onSurveyAnswerState)
 
   const handleError = useErrorHandler((error: Error) => {
     setState((prev) => ({
@@ -36,47 +36,43 @@ const SurveyResult = ({
   })
 
   const onAnswer = (answer: string): void => {
-    if (state.isLoading) return
+    if (!state.isLoading) {
+      setState((prev) => ({ ...prev, isLoading: true }))
 
-    setState((prev) => ({ ...prev, isLoading: true }))
-
-    saveSurveyResult
-      .save({ answer })
-      .then((surveyResult) =>
-        setState((prev) => ({ ...prev, isLoading: false, surveyResult }))
-      )
-      .catch(handleError)
+      saveSurveyResult
+        .save({ answer })
+        .then((surveyResult) =>
+          setState((prev) => ({ ...prev, isLoading: false, surveyResult }))
+        )
+        .catch(handleError)
+    }
   }
 
-  const reload = (): void => {
-    setState((prev) => ({
-      isLoading: false,
-      surveyResult: null,
-      error: '',
-      reload: !prev.reload
-    }))
-  }
+  const reload = (): void =>
+    setState((prev) => ({ ...prev, error: '', reload: !prev.reload }))
+
+  useEffect(() => {
+    resetSurveyResultState()
+    setOnAnswer({ onAnswer })
+  }, [])
 
   useEffect(() => {
     loadSurveyResult
       .load()
       .then((surveyResult) => setState((prev) => ({ ...prev, surveyResult })))
       .catch(handleError)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.reload])
 
   return (
     <S.Wrapper>
       <Header />
-      <SurveyResultContext.Provider value={{ onAnswer }}>
-        <S.SurveyResultContent data-testid="survey-result">
-          {state.surveyResult && (
-            <SurveyResultData surveyResult={state.surveyResult} />
-          )}
-          {state.isLoading && <Loading />}
-          {state.error && <Error error={state.error} reload={reload} />}
-        </S.SurveyResultContent>
-      </SurveyResultContext.Provider>
+      <S.SurveyResultContent data-testid="survey-result">
+        {state.surveyResult && (
+          <SurveyResultData surveyResult={state.surveyResult} />
+        )}
+        {state.isLoading && <Loading />}
+        {state.error && <Error error={state.error} reload={reload} />}
+      </S.SurveyResultContent>
       <Footer />
     </S.Wrapper>
   )

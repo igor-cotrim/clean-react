@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import Logo from '../Logo'
+import { Logo } from '@/presentation/components'
 
 import * as S from './styles'
 

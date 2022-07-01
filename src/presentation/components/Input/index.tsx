@@ -5,11 +5,11 @@ import * as S from './styles'
 type InputProps = {
   state: any
   setState: any
-  error: string
 } & InputHTMLAttributes<HTMLInputElement>
 
-const Input = ({ state, setState, error, ...props }: InputProps) => {
+const Input = ({ state, setState, ...props }: InputProps) => {
   const inputRef = useRef<HTMLInputElement>()
+  const error = state[`${props.name}Error`]
 
   return (
     <S.InputWrapper
@@ -17,6 +17,7 @@ const Input = ({ state, setState, error, ...props }: InputProps) => {
       data-testid={`${props.name}-wrapper`}
     >
       <S.Input
+        {...props}
         data-testid={props.name}
         ref={inputRef}
         title={error}
@@ -26,7 +27,6 @@ const Input = ({ state, setState, error, ...props }: InputProps) => {
             [e.target.name]: e.target.value
           })
         }}
-        {...props}
         placeholder=" "
       />
       <S.Label

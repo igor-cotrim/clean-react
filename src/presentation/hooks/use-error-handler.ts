@@ -1,5 +1,4 @@
 import { AccessDeniedError } from '@/domain/errors'
-
 import { useLogout } from '@/presentation/hooks'
 
 type CallbackType = (error: Error) => void

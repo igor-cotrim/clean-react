@@ -5,8 +5,6 @@ O objetivo é criar um sistema em ReactJs utilizando Hooks, Recoil, com uma arqu
 
 ## [**Link para o Deploy da aplicação**](https://glittering-scone-8cdb94.netlify.app/login)
 
-## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
-
 > ## Princípios
 * Single Responsibility Principle (SRP)
 * Open Closed Principle (OCP)
